@@ -1,0 +1,83 @@
+---
+// Marcas monocromáticas en color de marca, para que la sección no se vuelva un
+// arcoíris de logos ajenos.
+//
+// PENDIENTE (sección 9 del brief): sustituir por los SVG oficiales de cada
+// plataforma cuando diseño los entregue. Estos son glifos simplificados, no los
+// logotipos de marca: sirven para maquetar y para que la sección funcione hoy.
+
+interface Props {
+  id: string;
+  nombre: string;
+}
+const { id, nombre } = Astro.props;
+---
+
+<span class="logo" role="img" aria-label={nombre}>
+  {id === 'meta' && (
+    <svg viewBox="0 0 48 48" focusable="false">
+      <path d="M8 30c0-8 4-14 8.5-14S23 22 24 24c1-2 3.5-8 7.5-8S40 22 40 30c0 4-2 6-4.5 6-3.5 0-6-4.5-8-9-1.4-3.2-2.4-5-3.5-5s-2.1 1.8-3.5 5c-2 4.5-4.5 9-8 9C10 36 8 34 8 30Z" />
+    </svg>
+  )}
+  {id === 'tiktok' && (
+    <svg viewBox="0 0 48 48" focusable="false">
+      <path d="M27 8v20.5a6.5 6.5 0 1 1-6.5-6.5c.7 0 1.4.1 2 .3" />
+      <path d="M27 13c1.6 3.4 4.6 5.5 8.5 5.7" />
+    </svg>
+  )}
+  {id === 'linkedin' && (
+    <svg viewBox="0 0 48 48" focusable="false">
+      <rect x="9" y="9" width="30" height="30" rx="6" />
+      <line x1="17" y1="21" x2="17" y2="31" />
+      <circle cx="17" cy="16.5" r="1.8" class="relleno" />
+      <path d="M23 31v-6a4 4 0 0 1 8 0v6" />
+    </svg>
+  )}
+  {id === 'youtube' && (
+    <svg viewBox="0 0 48 48" focusable="false">
+      <rect x="7" y="13" width="34" height="22" rx="7" />
+      <path d="M21 19.5l9 4.5-9 4.5z" class="relleno" />
+    </svg>
+  )}
+  {id === 'x' && (
+    <svg viewBox="0 0 48 48" focusable="false">
+      <path d="M13 12l22 24M35 12L13 36" />
+    </svg>
+  )}
+  {id === 'whatsapp' && (
+    <svg viewBox="0 0 48 48" focusable="false">
+      <path d="M24 8a16 16 0 0 0-13.8 24L8 40l8.2-2.1A16 16 0 1 0 24 8Z" />
+      <path d="M19 19c0 6 4 10 10 10 1.8 0 2.6-1 2.6-2l-3-1.7-1.9 1.7a9 9 0 0 1-4.7-4.7l1.7-1.9L22 17c-1 0-3 .8-3 2Z" class="relleno" />
+    </svg>
+  )}
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 66px;
+    height: 66px;
+    flex: 0 0 66px;
+    border-radius: 18px;
+    background: var(--color-acento-pastel);
+    border: 2px solid var(--color-borde);
+    color: var(--color-marca);
+  }
+  .logo svg {
+    width: 34px;
+    height: 34px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .logo svg .relleno { fill: currentColor; stroke: none; }
+
+  @media (max-width: 767px) {
+    .logo { width: 54px; height: 54px; flex-basis: 54px; border-radius: 14px; }
+    .logo svg { width: 28px; height: 28px; }
+  }
+</style>

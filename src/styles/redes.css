@@ -1,0 +1,261 @@
+/* =========================================================================
+   Tokens y base — Página de Redes Sociales
+   -------------------------------------------------------------------------
+   Los valores NO se eligieron a ojo: salen del CSS en producción de
+   futurite.com (assets/css/main.css :root y assets/css/landing-ciudad.css,
+   la hoja que visten /google-ads, /comercio-electronico y las páginas de
+   plaza). Si el sitio cambia su paleta, este bloque es lo único que se toca.
+   ========================================================================= */
+
+:root {
+  --color-marca: #003a5c;          /* --dark-blue-01 · H1, titulares, botón */
+  --color-marca-oscuro: #011743;   /* cierre del degradado de fondos oscuros */
+  --color-marca-medio: #256586;    /* --dark-blue-02 */
+  --color-acento: #00cdff;         /* --light-blue-01 · CTA, líneas, números */
+  --color-acento-suave: #80e4fc;   /* cierre del degradado del botón */
+  --color-acento-pastel: #f0fbff;  /* --light-blue-02 · fondos muy claros */
+  --color-azul: #006fb8;           /* --azul · enlaces en texto */
+  --color-texto: #003a5c;
+  --color-texto-cuerpo: #333333;
+  --color-texto-suave: #4a5761;
+  --color-fondo: #ffffff;
+  --color-fondo-alt: #f4f6f8;      /* .bg-gris de las páginas nuevas */
+  --color-borde: #e3e9ee;
+
+  --grad-oscuro: linear-gradient(115deg, #003a5c 50%, #011743 100%);
+  --grad-medio: linear-gradient(115deg, #29698a 50%, #003a5c 100%);
+  --grad-acento: linear-gradient(320deg, #00cdff 0%, #80e4fc 100%);
+
+  --ancho: 1140px;                 /* .container de Bootstrap en el sitio */
+  --radio-card: 22px;
+  --radio-btn: 30px;
+}
+
+/* Misma familia del sitio, mismas rutas que main.css. En producción los
+   @font-face ya están declarados ahí: al integrar la página al repo principal
+   este bloque se borra. Fuera del sitio (dev local) las cuatro fuentes dan 404
+   y la página cae al sans del sistema; no rompe nada. */
+@font-face {
+  font-family: 'ProximaNova';
+  src: url('/assets/fonts/ProximaNova-Reg.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'ProximaNova';
+  src: url('/assets/fonts/ProximaNova-Bold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'ProximaNova';
+  src: url('/assets/fonts/ProximaNova-Extrabold.woff2') format('woff2');
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'ProximaNova';
+  src: url('/assets/fonts/ProximaNova-Black.woff2') format('woff2');
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+body {
+  margin: 0;
+  font-family: 'ProximaNova', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--color-texto-cuerpo);
+  background: var(--color-fondo);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: inherit;
+  color: var(--color-marca);
+  line-height: 1.2;
+  margin: 0 0 14px;
+}
+
+h1 { font-size: 44px; font-weight: 900; }
+h2 { font-size: 38px; font-weight: 800; }
+h3 { font-size: 21px; font-weight: 800; }
+
+p { margin: 0 0 16px; }
+
+a { color: var(--color-azul); }
+a:hover { color: var(--color-marca); }
+
+img, svg { max-width: 100%; }
+
+/* Foco visible en todo lo interactivo (requisito de accesibilidad del brief) */
+a:focus-visible,
+summary:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- Estructura ---------------------------------------------------------- */
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.seccion { padding: 76px 0; }
+.seccion--alt { background: var(--color-fondo-alt); }
+.seccion--pastel { background: var(--color-acento-pastel); }
+.seccion--oscura { background: var(--grad-oscuro); color: #fff; }
+.seccion--oscura h2,
+.seccion--oscura h3 { color: #fff; }
+
+.linea {
+  height: 4px;
+  width: 72px;
+  background: var(--color-acento);
+  border-radius: 2px;
+  margin: 22px 0;
+}
+.linea--centro { margin: 22px auto; }
+
+.centrado { text-align: center; }
+
+/* Kicker: va en minúsculas en el HTML y se pone en mayúsculas con CSS para
+   que los lectores de pantalla no lo deletreen letra por letra. */
+.kicker {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-marca-medio);
+  margin-bottom: 10px;
+}
+.seccion--oscura .kicker { color: var(--color-acento); }
+
+.entradilla {
+  font-size: 19px;
+  color: var(--color-texto-suave);
+  max-width: 72ch;
+}
+.seccion--oscura .entradilla { color: rgba(255, 255, 255, .82); }
+
+/* --- Botones (mismos valores que .btn-cta / .btn-ghost del sitio) --------- */
+
+.btn {
+  display: inline-block;
+  padding: 13px 42px;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--radio-btn);
+  border: 2px solid transparent;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+}
+.btn--primario {
+  background: var(--grad-acento);
+  color: var(--color-marca);
+}
+.btn--primario:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 205, 255, .28);
+  color: var(--color-marca);
+  text-decoration: none;
+}
+.btn--fantasma {
+  border-color: var(--color-acento);
+  color: var(--color-acento);
+  background: transparent;
+}
+.btn--fantasma:hover {
+  background: var(--color-acento);
+  color: var(--color-marca);
+  text-decoration: none;
+}
+/* Variante del botón contorno sobre fondo claro: el cian no da 4.5:1 en
+   blanco, así que el borde y el texto usan el azul de marca. */
+.btn--contorno {
+  border-color: var(--color-marca);
+  color: var(--color-marca);
+  background: transparent;
+}
+.btn--contorno:hover {
+  background: var(--color-marca);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* --- Tarjetas ------------------------------------------------------------ */
+
+.card {
+  background: #fff;
+  border: 2px solid var(--color-borde);
+  border-radius: var(--radio-card);
+  padding: 30px;
+  height: 100%;
+}
+
+/* --- Listas con viñeta de marca ------------------------------------------ */
+
+.lista-marca {
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+}
+.lista-marca li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 14px;
+  color: var(--color-texto-suave);
+}
+.lista-marca li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-acento);
+}
+.seccion--oscura .lista-marca li { color: rgba(255, 255, 255, .86); }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-acento);
+  color: var(--color-marca);
+  padding: 12px 20px;
+  font-weight: 700;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+@media (max-width: 991px) {
+  h1 { font-size: 36px; }
+  h2 { font-size: 31px; }
+  .seccion { padding: 58px 0; }
+}
+
+@media (max-width: 767px) {
+  body { font-size: 16px; }
+  h1 { font-size: 30px; }
+  h2 { font-size: 26px; }
+  .entradilla { font-size: 17px; }
+  .btn { display: block; padding: 13px 24px; }
+  .seccion { padding: 48px 0; }
+}

@@ -1,0 +1,79 @@
+---
+interface Paso {
+  numero: string;
+  titulo: string;
+  texto: string;
+}
+interface Props {
+  titulo: string;
+  entrada: string;
+  pasos: Paso[];
+}
+const { titulo, entrada, pasos } = Astro.props;
+---
+
+{/* Mismo estilo de los bloques numerados de las páginas nuevas:
+    .step-num a 52px / 900 en --light-blue-01 con opacidad .55 */}
+<section class="seccion proceso">
+  <div class="contenedor">
+    <div class="proceso__intro">
+      <span class="kicker">El proceso</span>
+      <h2>{titulo}</h2>
+      <div class="linea"></div>
+      <p class="entradilla">{entrada}</p>
+    </div>
+
+    <ol class="proceso__pasos">
+      {pasos.map((p) => (
+        <li class="proceso__paso">
+          <div class="proceso__num" aria-hidden="true">{p.numero}</div>
+          <h3>{p.titulo}</h3>
+          <p>{p.texto}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .proceso__intro { max-width: 760px; margin-bottom: 44px; }
+  .proceso__pasos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+  .proceso__paso { position: relative; padding-right: 10px; }
+  .proceso__paso::before {
+    content: '';
+    position: absolute;
+    top: 26px;
+    right: -18px;
+    width: 12px;
+    height: 12px;
+    border-top: 2px solid var(--color-borde);
+    border-right: 2px solid var(--color-borde);
+    transform: rotate(45deg);
+  }
+  .proceso__paso:last-child::before { display: none; }
+
+  .proceso__num {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-acento);
+    opacity: .55;
+  }
+  .proceso__paso h3 { margin: 10px 0 8px; }
+  .proceso__paso p { font-size: 16px; color: var(--color-texto-suave); margin: 0; }
+
+  @media (max-width: 991px) {
+    .proceso__pasos { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .proceso__paso::before { display: none; }
+  }
+  @media (max-width: 575px) {
+    .proceso__pasos { grid-template-columns: 1fr; gap: 24px; }
+  }
+</style>

@@ -1,0 +1,97 @@
+---
+import LogoPlataforma from './LogoPlataforma.astro';
+import plataformas from '../../data/redes/plataformas.json';
+
+interface Props {
+  titulo: string;
+  entrada: string;
+}
+const { titulo, entrada } = Astro.props;
+---
+
+{/* Filas verticales, no seis tarjetas en hilera: el valor de la sección es
+    poder escanearla completa y comparar de un vistazo. Sin acordeón. */}
+<section class="seccion seccion--alt plat">
+  <div class="contenedor">
+    <div class="plat__intro">
+      <span class="kicker">Comparativa</span>
+      <h2>{titulo}</h2>
+      <div class="linea"></div>
+      <p class="entradilla">{entrada}</p>
+    </div>
+
+    <ul class="plat__lista">
+      {plataformas.map((p) => (
+        <li class="plat__fila">
+          <div class="plat__marca">
+            <LogoPlataforma id={p.id} nombre={p.nombre} />
+            <div>
+              <h3 class="plat__nombre">{p.nombre}</h3>
+              {p.detalle && <p class="plat__detalle">{p.detalle}</p>}
+            </div>
+          </div>
+
+          <div class="plat__argumentos">
+            <div class="plat__arg plat__arg--favor">
+              <span class="plat__etiqueta">A favor</span>
+              <p>{p.aFavor}</p>
+            </div>
+            <div class="plat__arg plat__arg--contra">
+              <span class="plat__etiqueta">En contra</span>
+              <p>{p.enContra}</p>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .plat__intro { max-width: 760px; margin-bottom: 40px; }
+  .plat__lista { list-style: none; margin: 0; padding: 0; }
+
+  .plat__fila {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
+    align-items: start;
+    background: #fff;
+    border: 2px solid var(--color-borde);
+    border-radius: var(--radio-card);
+    padding: 26px 30px;
+    margin-bottom: 14px;
+  }
+  .plat__marca { display: flex; align-items: center; gap: 16px; }
+  .plat__nombre { margin: 0; font-size: 22px; }
+  .plat__detalle { margin: 2px 0 0; font-size: 14.5px; color: var(--color-texto-suave); }
+
+  .plat__argumentos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+  }
+  .plat__arg { border-left: 3px solid var(--color-borde); padding-left: 18px; }
+  .plat__arg--favor { border-left-color: var(--color-acento); }
+  .plat__arg--contra { border-left-color: var(--color-marca-medio); }
+  .plat__arg p { margin: 0; font-size: 16px; color: var(--color-texto-suave); }
+
+  .plat__etiqueta {
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-size: 12.5px;
+    font-weight: 800;
+    margin-bottom: 7px;
+    color: var(--color-marca);
+  }
+
+  @media (max-width: 991px) {
+    .plat__fila { grid-template-columns: 1fr; gap: 20px; }
+  }
+  @media (max-width: 767px) {
+    /* Una tarjeta por plataforma, apiladas. */
+    .plat__fila { padding: 22px; }
+    .plat__argumentos { grid-template-columns: 1fr; gap: 18px; }
+  }
+</style>

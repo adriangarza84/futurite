@@ -1,0 +1,160 @@
+---
+interface Punto {
+  titulo: string;
+  texto: string;
+}
+interface Props {
+  titulo: string;
+  entrada: string;
+  si: Punto[];
+  no: Punto[];
+  cierre: string;
+}
+
+const { titulo, entrada, si, no, cierre } = Astro.props;
+---
+
+{/* Tratamiento propio: es el bloque que diferencia la página. Banda oscura,
+    dos columnas con el MISMO peso visual. "Dónde no" no es letra chica: si
+    pesara menos, el argumento de honestidad se desarma. */}
+<section class="seccion ia">
+  <div class="contenedor">
+    <div class="ia__intro">
+      <span class="kicker">Inteligencia artificial</span>
+      <h2>{titulo}</h2>
+      <div class="linea"></div>
+      <p class="entradilla">{entrada}</p>
+    </div>
+
+    <div class="ia__columnas">
+      <div class="ia__col">
+        <h3 class="ia__tit">
+          <span class="ia__marca ia__marca--si" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          </span>
+          Dónde sí
+        </h3>
+        <ul class="ia__lista">
+          {si.map((p) => (
+            <li>
+              <strong>{p.titulo}</strong> {p.texto}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ia__col">
+        <h3 class="ia__tit">
+          <span class="ia__marca ia__marca--no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false"><path d="M7 7l10 10M17 7L7 17" /></svg>
+          </span>
+          Dónde no
+        </h3>
+        <ul class="ia__lista">
+          {no.map((p) => (
+            <li>
+              <strong>{p.titulo}</strong> {p.texto}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <p class="ia__cierre">{cierre}</p>
+  </div>
+</section>
+
+<style>
+  .ia {
+    background: var(--grad-oscuro);
+    color: rgba(255, 255, 255, .88);
+    position: relative;
+    overflow: hidden;
+  }
+  .ia::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 72%);
+    -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 72%);
+    pointer-events: none;
+  }
+  .ia > .contenedor { position: relative; z-index: 1; }
+
+  .ia h2, .ia h3 { color: #fff; }
+  .ia .kicker { color: var(--color-acento); }
+  .ia__intro { max-width: 760px; margin-bottom: 44px; }
+  .ia__intro .entradilla { color: rgba(255, 255, 255, .82); }
+
+  .ia__columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+  }
+  /* Misma superficie, mismo borde, mismo padding en las dos columnas. */
+  .ia__col {
+    background: rgba(255, 255, 255, .06);
+    border: 2px solid rgba(255, 255, 255, .16);
+    border-radius: var(--radio-card);
+    padding: 32px 30px;
+  }
+  .ia__tit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    margin-bottom: 22px;
+  }
+  .ia__marca {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    flex: 0 0 38px;
+  }
+  .ia__marca svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ia__marca--si { background: var(--color-acento); }
+  .ia__marca--si svg { stroke: var(--color-marca); }
+  .ia__marca--no { background: rgba(255, 255, 255, .92); }
+  .ia__marca--no svg { stroke: var(--color-marca); }
+
+  .ia__lista { list-style: none; margin: 0; padding: 0; }
+  .ia__lista li {
+    padding: 0 0 16px 0;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+    color: rgba(255, 255, 255, .84);
+  }
+  .ia__lista li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .ia__lista strong { color: #fff; }
+
+  .ia__cierre {
+    margin: 40px auto 0;
+    max-width: 68ch;
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+  }
+
+  @media (max-width: 767px) {
+    /* Se apilan con "Dónde sí" arriba, que ya es el orden del DOM. */
+    .ia__columnas { grid-template-columns: 1fr; gap: 18px; }
+    .ia__col { padding: 26px 22px; }
+    .ia__tit { font-size: 21px; }
+    .ia__cierre { font-size: 17px; text-align: left; }
+  }
+</style>

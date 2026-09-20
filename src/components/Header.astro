@@ -1,0 +1,183 @@
+---
+// Header compartido del sitio. Reproduce el menú que hoy sirve futurite.com,
+// ya con "Software a la medida" dentro de Servicios (falta en las páginas del
+// molde viejo, entre ellas la de redes sociales).
+//
+// Si el repo principal ya tiene un Header.astro, se usa ese y este archivo se
+// borra: la página no debe traer su propia copia del menú.
+
+const servicios = [
+  { texto: 'Redes Sociales', href: 'https://futurite.com/agencia-de-redes-sociales' },
+  { texto: 'Google Ads', href: 'https://futurite.com/google-ads' },
+  { texto: 'SEO', href: 'https://futurite.com/agencia-seo' },
+  { texto: "App's", href: 'https://futurite.com/desarrollo-aplicaciones-moviles' },
+  { texto: 'Software a la medida', href: 'https://futurite.com/desarrollo-aplicaciones' },
+  { texto: 'Comercio Electrónico', href: 'https://futurite.com/comercio-electronico' },
+  { texto: 'Marketing médico', href: 'https://futurite.com/marketing-medico' },
+];
+
+const menu = [
+  { texto: 'Inicio', href: 'https://futurite.com/' },
+  { texto: 'Nosotros', href: 'https://futurite.com/nosotros' },
+  { texto: 'Portafolio', href: 'https://futurite.com/portafolio' },
+  { texto: 'Ubicaciones', href: 'https://futurite.com/sucursales' },
+  { texto: 'Contacto', href: 'https://futurite.com/contacto' },
+  { texto: 'Soy Cliente', href: 'https://futurite.com/reportes' },
+  { texto: 'Blog', href: 'https://futurite.com/blog-marketing-digital/' },
+];
+
+const paginaActual = 'https://futurite.com/agencia-de-redes-sociales';
+---
+
+<header class="encabezado">
+  <div class="contenedor encabezado__fila">
+    <a class="encabezado__logo" href="https://futurite.com/">
+      <img
+        src="https://futurite.com/assets/img/inicio/agencia-de-marketing-digital.svg"
+        alt="Futurité, agencia de marketing digital"
+        width="150"
+        height="38"
+        fetchpriority="high"
+      />
+    </a>
+
+    <input type="checkbox" id="menu-movil" class="encabezado__toggle" />
+    <label for="menu-movil" class="encabezado__hamburguesa" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </label>
+
+    <nav class="encabezado__nav" aria-label="Menú principal">
+      <ul class="encabezado__lista">
+        <li><a href="https://futurite.com/">Inicio</a></li>
+        <li><a href="https://futurite.com/nosotros">Nosotros</a></li>
+        <li class="encabezado__servicios">
+          <span class="encabezado__servicios-tit">Servicios</span>
+          <ul class="encabezado__submenu">
+            {servicios.map((s) => (
+              <li>
+                <a href={s.href} aria-current={s.href === paginaActual ? 'page' : undefined}>
+                  {s.texto}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </li>
+        {menu.slice(2).map((m) => (
+          <li><a href={m.href}>{m.texto}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .encabezado {
+    background: #fff;
+    border-bottom: 1px solid var(--color-borde);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .encabezado__fila {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    min-height: 72px;
+  }
+  .encabezado__logo img { display: block; height: 38px; width: auto; }
+
+  .encabezado__lista {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .encabezado__lista a,
+  .encabezado__servicios-tit {
+    color: var(--color-marca);
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .encabezado__lista a:hover { color: var(--color-azul); text-decoration: none; }
+  .encabezado__lista a[aria-current='page'] { color: var(--color-azul); }
+
+  .encabezado__servicios { position: relative; }
+  .encabezado__servicios-tit { cursor: default; }
+  .encabezado__servicios-tit::after { content: ' ▾'; color: var(--color-acento); }
+
+  .encabezado__submenu {
+    position: absolute;
+    top: 100%;
+    left: -14px;
+    min-width: 236px;
+    background: #fff;
+    border: 1px solid var(--color-borde);
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(0, 58, 92, .12);
+    padding: 10px 0;
+    margin: 0;
+    list-style: none;
+    display: none;
+  }
+  /* Sin JavaScript: se abre con hover y con foco de teclado. */
+  .encabezado__servicios:hover .encabezado__submenu,
+  .encabezado__servicios:focus-within .encabezado__submenu { display: block; }
+  .encabezado__submenu a {
+    display: block;
+    padding: 9px 18px;
+    font-weight: 400;
+    font-size: 15.5px;
+  }
+  .encabezado__submenu a:hover { background: var(--color-acento-pastel); }
+
+  .encabezado__toggle,
+  .encabezado__hamburguesa { display: none; }
+
+  @media (max-width: 991px) {
+    .encabezado__hamburguesa {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      padding: 10px;
+    }
+    .encabezado__hamburguesa span {
+      display: block;
+      height: 3px;
+      background: var(--color-marca);
+      border-radius: 2px;
+    }
+    .encabezado__nav {
+      display: none;
+      width: 100%;
+      order: 3;
+      padding-bottom: 16px;
+    }
+    .encabezado__toggle:checked ~ .encabezado__nav { display: block; }
+    .encabezado__fila { flex-wrap: wrap; }
+    .encabezado__lista {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .encabezado__submenu {
+      position: static;
+      display: block;
+      border: none;
+      box-shadow: none;
+      padding: 8px 0 0 14px;
+      border-left: 3px solid var(--color-acento);
+      border-radius: 0;
+      margin-top: 8px;
+    }
+    .encabezado__submenu a { padding: 6px 0; }
+  }
+</style>

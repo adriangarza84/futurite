@@ -1,0 +1,127 @@
+---
+// Footer compartido, en su versión actual: enlace a X (no Twitter) y bloque de
+// las seis ciudades. Mismo criterio que el Header: si el repo principal ya lo
+// tiene como componente, se usa ese.
+
+const redes = [
+  { texto: 'Google My Business', href: 'https://maps.app.goo.gl/LpX3GRPb32ASX29EA' },
+  { texto: 'Facebook', href: 'https://www.facebook.com/Futurite/' },
+  { texto: 'Instagram', href: 'https://www.instagram.com/futurite/' },
+  { texto: 'LinkedIn', href: 'https://mx.linkedin.com/company/futurite' },
+  { texto: 'X', href: 'https://x.com/Futurite' },
+  { texto: 'TikTok', href: 'https://www.tiktok.com/@futurite_oficial' },
+  { texto: 'Blog', href: 'https://futurite.com/blog-marketing-digital/' },
+];
+
+const sitio = [
+  { texto: 'Inicio', href: 'https://futurite.com/' },
+  { texto: 'Nosotros', href: 'https://futurite.com/nosotros' },
+  { texto: 'Portafolio', href: 'https://futurite.com/portafolio' },
+  { texto: 'Ubicaciones', href: 'https://futurite.com/sucursales' },
+  { texto: 'Contacto', href: 'https://futurite.com/contacto' },
+  { texto: 'Únete al equipo', href: 'https://futurite.com/vacantes' },
+];
+
+const ciudades = [
+  { texto: 'Monterrey', href: 'https://futurite.com/agencia-de-marketing-digital-en-monterrey' },
+  { texto: 'Ciudad de México', href: 'https://futurite.com/marketing-digital-cdmx' },
+  { texto: 'Guadalajara', href: 'https://futurite.com/marketing-digital-guadalajara' },
+  { texto: 'Querétaro', href: 'https://futurite.com/agencia-de-marketing-digital-en-queretaro' },
+  { texto: 'Toluca', href: 'https://futurite.com/marketing-digital-toluca' },
+  { texto: 'Cancún', href: 'https://futurite.com/cancun' },
+];
+
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <div class="contenedor">
+    <div class="pie__grid">
+      <div>
+        <p class="pie__tit">¡Contáctanos!</p>
+        <p><a class="pie__tel" href="tel:8120929666">(81) 2092-9666</a></p>
+        <p class="pie__tit">¡Visítanos!</p>
+        <p class="pie__dir">
+          Plaza Tanarah Piso 21, Av. José Vasconcelos 345-Ote, Santa Engracia,
+          66267 San Pedro Garza García, N.L.
+        </p>
+        <p>
+          <a href="https://futurite.com/preguntas-frecuentes">Preguntas frecuentes</a>
+        </p>
+      </div>
+
+      <div>
+        <p class="pie__tit">Redes sociales</p>
+        <ul class="pie__lista">
+          {redes.map((r) => (
+            <li><a href={r.href}>{r.texto}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <p class="pie__tit">Sitio</p>
+        <ul class="pie__lista">
+          {sitio.map((s) => (
+            <li><a href={s.href}>{s.texto}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div>
+        <p class="pie__tit">Ciudades</p>
+        <ul class="pie__lista">
+          {ciudades.map((c) => (
+            <li><a href={c.href}>{c.texto}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <p class="pie__legal">
+      ©{anio}, Futurité. Todos los derechos reservados.
+      <a href="https://futurite.com/aviso-de-privacidad">Aviso de privacidad</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    background: var(--grad-oscuro);
+    color: rgba(255, 255, 255, .84);
+    padding: 58px 0 28px;
+    font-size: 15.5px;
+  }
+  .pie__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 34px;
+  }
+  .pie__tit {
+    color: #fff;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    font-size: 14px;
+    margin: 0 0 12px;
+  }
+  .pie__tel { font-size: 22px; font-weight: 800; }
+  .pie__dir { max-width: 34ch; }
+  .pie__lista { list-style: none; margin: 0; padding: 0; }
+  .pie__lista li { margin-bottom: 9px; }
+  .pie a { color: var(--color-acento); text-decoration: none; }
+  .pie a:hover { color: #fff; text-decoration: underline; }
+  .pie__legal {
+    margin: 40px 0 0;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255, 255, 255, .16);
+    font-size: 14px;
+  }
+
+  @media (max-width: 991px) {
+    .pie__grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+  }
+  @media (max-width: 575px) {
+    .pie__grid { grid-template-columns: 1fr; }
+  }
+</style>

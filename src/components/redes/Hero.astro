@@ -1,0 +1,82 @@
+---
+interface Props {
+  antetitulo: string;
+  titulo: string;
+  bajada: string;
+  botones: { texto: string; href: string; variante: 'primario' | 'fantasma'; gtm?: string }[];
+}
+
+const { antetitulo, titulo, bajada, botones } = Astro.props;
+---
+
+<section class="hero">
+  <div class="contenedor hero__inner">
+    {/* Antetítulo con peso visual de H2 pero marcado como <p>: la página
+        conserva un solo H1 y el orden de encabezados no se rompe. */}
+    <p class="hero__antetitulo">{antetitulo}</p>
+    <h1 class="hero__h1">{titulo}</h1>
+    <p class="hero__bajada">{bajada}</p>
+    <div class="hero__botones">
+      {botones.map((b) => (
+        <a
+          class={`btn btn--${b.variante}`}
+          href={b.href}
+          data-gtm-evento="cta_click"
+          data-gtm-posicion={b.gtm}
+        >
+          {b.texto}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--grad-oscuro);
+    color: #fff;
+    padding: 92px 0 84px;
+    overflow: hidden;
+  }
+  /* Textura de marca. Si se sube la pieza definitiva a
+     /assets/img/heroes/hero-redes.webp, se descomenta la línea de abajo; sin
+     ella el degradado funciona solo y no hay petición extra ni CLS. */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* background: url('https://futurite.com/assets/img/heroes/hero-redes.webp') center/cover no-repeat; */
+    background-image: radial-gradient(circle at 18% 22%, rgba(0, 205, 255, .16), transparent 42%),
+                      radial-gradient(circle at 82% 68%, rgba(0, 205, 255, .12), transparent 46%);
+    pointer-events: none;
+  }
+  .hero__inner { position: relative; z-index: 1; max-width: 900px; }
+
+  .hero__antetitulo {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--color-acento);
+    margin: 0 0 14px;
+    line-height: 1.3;
+  }
+  .hero__h1 { color: #fff; margin-bottom: 18px; }
+  .hero__bajada {
+    font-size: 19px;
+    color: rgba(255, 255, 255, .86);
+    max-width: 66ch;
+    margin-bottom: 30px;
+  }
+  .hero__botones { display: flex; flex-wrap: wrap; gap: 14px; }
+
+  @media (max-width: 991px) {
+    .hero { padding: 66px 0 58px; }
+    .hero__antetitulo { font-size: 19px; }
+  }
+  @media (max-width: 767px) {
+    .hero { padding: 42px 0 44px; }
+    .hero__antetitulo { font-size: 17px; }
+    .hero__bajada { font-size: 16.5px; margin-bottom: 24px; }
+    .hero__botones { flex-direction: column; gap: 12px; }
+  }
+</style>

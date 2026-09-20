@@ -1,0 +1,20 @@
+---
+// Solo para la vista previa en GitHub Pages: la raíz del repo manda a la
+// página. En futurite.com este archivo no se usa (ahí el home ya existe).
+const destino = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/agencia-de-redes-sociales`;
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${destino}`} />
+    <title>Vista previa — Página de Redes Sociales</title>
+  </head>
+  <body style="font-family: system-ui, sans-serif; padding: 40px; color: #003a5c;">
+    <p>Redirigiendo a la página de redes sociales…</p>
+    <p><a href={destino}>Abrir la página</a></p>
+  </body>
+</html>

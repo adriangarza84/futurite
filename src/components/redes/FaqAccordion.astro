@@ -1,0 +1,97 @@
+---
+import faqs from '../../data/redes/faqs.json';
+
+interface Props {
+  titulo: string;
+}
+const { titulo } = Astro.props;
+---
+
+{/* <details>/<summary> nativos: cero JavaScript, navegable por teclado y con
+    todas las respuestas presentes en el HTML inicial aunque estén colapsadas.
+    El JSON-LD de FAQPage se genera desde este mismo archivo de datos
+    (ver getFaqJsonLd en src/lib/jsonld.js), así que no se pueden desincronizar. */}
+<section class="seccion seccion--alt faq" id="preguntas-frecuentes">
+  <div class="contenedor">
+    <div class="faq__intro">
+      <span class="kicker">Dudas comunes</span>
+      <h2>{titulo}</h2>
+      <div class="linea"></div>
+    </div>
+
+    <div class="faq__lista">
+      {faqs.map((f) => (
+        <details class="faq__item">
+          <summary class="faq__pregunta" data-gtm-evento="faq_open" data-gtm-pregunta={f.pregunta}>
+            <h3>{f.pregunta}</h3>
+            <span class="faq__icono" aria-hidden="true"></span>
+          </summary>
+          <div class="faq__respuesta">
+            <p>{f.respuesta}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__intro { margin-bottom: 34px; }
+  .faq__lista { max-width: 900px; }
+
+  .faq__item {
+    border-bottom: 2px solid var(--color-borde);
+    background: transparent;
+  }
+  .faq__pregunta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 4px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .faq__pregunta::-webkit-details-marker { display: none; }
+  .faq__pregunta:hover { background: #eef2f5; }
+
+  .faq__pregunta h3 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--color-marca);
+  }
+
+  /* Indicador + / – construido con CSS, igual que en las páginas nuevas. */
+  .faq__icono {
+    position: relative;
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+  }
+  .faq__icono::before,
+  .faq__icono::after {
+    content: '';
+    position: absolute;
+    background: var(--color-marca-medio);
+    border-radius: 2px;
+    transition: transform .18s ease, opacity .18s ease;
+  }
+  .faq__icono::before { top: 10px; left: 0; width: 22px; height: 3px; }
+  .faq__icono::after { left: 10px; top: 0; width: 3px; height: 22px; }
+  .faq__item[open] .faq__icono::after { transform: scaleY(0); opacity: 0; }
+
+  .faq__respuesta { padding: 0 46px 24px 4px; }
+  .faq__respuesta p {
+    margin: 0;
+    font-size: 16.5px;
+    color: var(--color-texto-suave);
+    max-width: 72ch;
+  }
+
+  @media (max-width: 767px) {
+    .faq__pregunta h3 { font-size: 17px; }
+    .faq__respuesta { padding: 0 4px 22px; }
+  }
+</style>

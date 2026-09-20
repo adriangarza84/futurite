@@ -1,0 +1,44 @@
+[
+  {
+    "id": "meta",
+    "nombre": "Meta",
+    "detalle": "Facebook e Instagram",
+    "aFavor": "Donde está el volumen en México y donde mejor funciona la generación de prospectos y la venta de catálogo.",
+    "enContra": "Los costos llevan años subiendo y la categoría está saturada en casi todos los giros, así que el creativo tiene que trabajar más que antes."
+  },
+  {
+    "id": "tiktok",
+    "nombre": "TikTok",
+    "detalle": "",
+    "aFavor": "El alcance sigue siendo barato comparado con Meta y es la plataforma donde una marca desconocida puede crecer rápido.",
+    "enContra": "La decisión de compra es impulsiva, así que rinde mejor en ticket bajo y medio que en ventas largas."
+  },
+  {
+    "id": "linkedin",
+    "nombre": "LinkedIn",
+    "detalle": "",
+    "aFavor": "Se justifica cuando el ticket es alto y quien decide la compra es identificable por puesto o industria. Para B2B industrial, suele salir más barato que parecer.",
+    "enContra": "El clic es caro, de los más caros del mercado."
+  },
+  {
+    "id": "youtube",
+    "nombre": "YouTube",
+    "detalle": "",
+    "aFavor": "Construye recordación y sostiene la decisión en categorías de compra larga.",
+    "enContra": "Exige producción y no muestra resultados inmediatos. No es el canal para pedir resultados el primer mes."
+  },
+  {
+    "id": "x",
+    "nombre": "X",
+    "detalle": "",
+    "aFavor": "Tiene sentido en categorías específicas: tecnología, medios, conversación pública.",
+    "enContra": "Alcance limitado para venta directa en el mercado mexicano."
+  },
+  {
+    "id": "whatsapp",
+    "nombre": "WhatsApp",
+    "detalle": "",
+    "aFavor": "En México buena parte de la conversión termina ahí, así que lo tratamos como parte de la campaña y no como algo que pasa después.",
+    "enContra": "No es una plataforma de pauta, es el destino: depende de que otra plataforma traiga la conversación."
+  }
+]

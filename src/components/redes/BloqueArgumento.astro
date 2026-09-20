@@ -1,0 +1,91 @@
+---
+import Figura from './Figura.astro';
+
+interface Props {
+  kicker: string;
+  titulo: string;
+  bullets: string[];
+  cta: { texto: string; href: string; posicion: string };
+  figura: 'dato' | 'creativo' | 'decisiones';
+  /* Cuando existan las piezas definitivas: { src, alt, width, height } en WebP.
+     Mientras tanto se usa la ilustración de línea de `figura`. */
+  imagen?: { src: string; alt: string; width: number; height: number };
+  ladoImagen?: 'izquierda' | 'derecha';
+  fondo?: 'blanco' | 'alt';
+}
+
+const {
+  kicker,
+  titulo,
+  bullets,
+  cta,
+  figura,
+  imagen,
+  ladoImagen = 'derecha',
+  fondo = 'blanco',
+} = Astro.props;
+---
+
+<section class={`seccion bloque ${fondo === 'alt' ? 'seccion--alt' : ''}`}>
+  <div class={`contenedor bloque__grid ${ladoImagen === 'izquierda' ? 'bloque__grid--invertido' : ''}`}>
+    <div class="bloque__texto">
+      <span class="kicker">{kicker}</span>
+      <h2>{titulo}</h2>
+      <div class="linea"></div>
+      <ul class="lista-marca">
+        {bullets.map((b) => <li>{b}</li>)}
+      </ul>
+      <a
+        class="btn btn--contorno"
+        href={cta.href}
+        data-gtm-evento="cta_click"
+        data-gtm-posicion={cta.posicion}
+      >
+        {cta.texto}
+      </a>
+    </div>
+
+    <div class="bloque__media">
+      {imagen ? (
+        <img
+          src={imagen.src}
+          alt={imagen.alt}
+          width={imagen.width}
+          height={imagen.height}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <Figura tipo={figura} />
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .bloque__grid {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 56px;
+    align-items: center;
+  }
+  /* La imagen alterna de lado entre bloques sin cambiar el orden del DOM:
+     en móvil el texto siempre va primero. */
+  .bloque__grid--invertido .bloque__texto { order: 2; }
+  .bloque__grid--invertido .bloque__media { order: 1; }
+
+  .bloque__texto h2 { margin-bottom: 0; }
+  .bloque__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radio-card);
+  }
+
+  @media (max-width: 991px) {
+    .bloque__grid { grid-template-columns: 1fr; gap: 34px; }
+    .bloque__grid--invertido .bloque__texto,
+    .bloque__grid--invertido .bloque__media { order: initial; }
+    .bloque__media { max-width: 460px; }
+  }
+</style>

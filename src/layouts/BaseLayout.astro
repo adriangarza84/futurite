@@ -1,0 +1,87 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/redes.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogImage?: string;
+  jsonLd?: unknown[];
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage = 'https://futurite.com/assets/img/og/og-redes-sociales.jpg',
+  jsonLd = [],
+} = Astro.props;
+
+// GTM del sitio. Se deja parametrizado para no hardcodear el ID en el markup;
+// si el contenedor cambia, se cambia aquí y en ningún otro lugar.
+const GTM_ID = 'GTM-XXXXXXX';
+---
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    {/* meta-keywords eliminado a propósito: ver sección 3 del brief. */}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:site_name" content="Futurité" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://futurite.com" crossorigin />
+
+    {jsonLd.map((bloque) => (
+      <script type="application/ld+json" set:html={JSON.stringify(bloque)} />
+    ))}
+
+    {/* Google Tag Manager. Único script de la página: no hay JavaScript propio
+        de render ni scripts sueltos de medición (sección 8 del brief). */}
+    <script is:inline define:vars={{ GTM_ID }}>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', GTM_ID);
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+        title="Google Tag Manager"></iframe>
+    </noscript>
+
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <Header />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

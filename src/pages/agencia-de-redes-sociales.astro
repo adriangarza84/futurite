@@ -1,0 +1,366 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/redes/Hero.astro';
+import BloqueArgumento from '../components/redes/BloqueArgumento.astro';
+import IABloque from '../components/redes/IABloque.astro';
+import Plataformas from '../components/redes/Plataformas.astro';
+import Proceso from '../components/redes/Proceso.astro';
+import FaqAccordion from '../components/redes/FaqAccordion.astro';
+import CierreCta from '../components/redes/CierreCta.astro';
+import { faqPageJsonLd, serviceJsonLd, URL_PAGINA } from '../lib/jsonld.js';
+
+const CONTACTO = 'https://futurite.com/contacto';
+
+// --- Copy aprobado (sección 6 del brief). No editar sin avisar a marketing. ---
+
+const bloques = [
+  {
+    kicker: 'El dato antes que el contenido',
+    titulo: 'Si la plataforma no sabe quién te compró, no puede buscarte a alguien parecido',
+    bullets: [
+      'Instalamos y verificamos el pixel y la API de Conversiones antes de encender pauta',
+      'Revisamos la calidad de coincidencia de eventos: cuando Meta no logra identificar a tus compradores, optimiza a ciegas',
+      'Enviamos el valor de cada conversión, para que el sistema puje por lo que te deja margen y no por lo que es barato',
+      'Separamos en el reporte al público frío del remarketing, para que el resultado no se infle con gente que ya te conocía',
+    ],
+    cta: { texto: 'Contactar experto', href: CONTACTO, posicion: 'bloque-3-dato' },
+    figura: 'dato',
+    ladoImagen: 'derecha',
+    fondo: 'blanco',
+  },
+  {
+    kicker: 'El creativo es la nueva segmentación',
+    titulo: 'Con las campañas automatizadas, el algoritmo decide a quién le muestra. Lo que tú controlas es qué le muestra',
+    bullets: [
+      'Producimos suficientes variantes para que una prueba signifique algo, no tres piezas al mes',
+      'Trabajamos ángulos distintos, no versiones del mismo anuncio con otro color',
+      'Detectamos el desgaste creativo y rotamos antes de que suba el costo, no después',
+      'Cada plataforma recibe su propia versión: lo que funciona en un reel de TikTok no funciona en un anuncio de LinkedIn',
+    ],
+    cta: { texto: 'Contactar experto', href: CONTACTO, posicion: 'bloque-4-creativo' },
+    figura: 'creativo',
+    ladoImagen: 'izquierda',
+    fondo: 'alt',
+  },
+  {
+    kicker: 'Decisiones, no reportes',
+    titulo: 'Cada mes entregamos tres cosas: qué se invirtió, qué generó y qué vamos a cambiar',
+    bullets: [
+      'Costo por prospecto y por venta, desglosado por plataforma y por campaña',
+      'Qué creativos escalan, cuáles se apagan y con qué criterio',
+      'Qué ángulos y públicos vale la pena probar el mes siguiente',
+      'Alcance, seguidores e interacciones están disponibles cuando los necesitas, pero no son el entregable',
+    ],
+    cta: { texto: 'Contactar experto', href: CONTACTO, posicion: 'bloque-5-decisiones' },
+    figura: 'decisiones',
+    ladoImagen: 'derecha',
+    fondo: 'blanco',
+  },
+];
+
+const iaSi = [
+  {
+    titulo: 'Investigación.',
+    texto: 'Escuchamos qué se dice de tu categoría, con qué palabras y en qué tono, a una escala que a mano no se alcanza.',
+  },
+  {
+    titulo: 'Volumen creativo.',
+    texto: 'Generamos variantes de copy, ganchos y ángulos para que la prueba tenga con qué comparar. Sin volumen, probar es adivinar.',
+  },
+  {
+    titulo: 'Producción.',
+    texto: 'Versiones por plataforma, cortes verticales, subtítulos, locución. Lo que antes tomaba días de edición hoy toma horas, y eso se traduce en más material en circulación.',
+  },
+  {
+    titulo: 'Análisis.',
+    texto: 'Identificamos qué creativo empieza a desgastarse y qué segmento se está encareciendo antes de que aparezca en el reporte mensual.',
+  },
+];
+
+const iaNo = [
+  {
+    titulo: 'Decidir qué se publica.',
+    texto: 'Todo pasa por revisión humana antes de salir. La IA propone; una persona firma.',
+  },
+  {
+    titulo: 'Responder por tu marca sin supervisión.',
+    texto: 'Comentarios y mensajes los atiende gente, con apoyo de herramientas, no al revés.',
+  },
+  {
+    titulo: 'Sectores regulados.',
+    texto: 'En salud y servicios financieros el texto tiene límites legales. Ahí la IA es borrador, nunca versión final.',
+  },
+  {
+    titulo: 'Inventar.',
+    texto: 'Ni resultados, ni casos, ni testimonios, ni datos que no podamos sostener.',
+  },
+];
+
+const incluye = [
+  'Estrategia de comunicación y línea de contenido por plataforma',
+  'Producción de contenido: diseño, video, copy y adaptación por formato',
+  'Calendario y publicación',
+  'Gestión de comunidad: comentarios y mensajes',
+  'Configuración y verificación de pixel, API de Conversiones y eventos',
+  'Operación de campañas de pauta',
+  'Dashboard de resultados en tiempo real',
+  'Junta mensual de resultados y decisiones',
+];
+
+const pasos = [
+  {
+    numero: '01',
+    titulo: 'Diagnóstico',
+    texto: 'Revisamos tus cuentas, qué contenido ya funcionó, cómo está la medición y qué está haciendo tu competencia directa.',
+  },
+  {
+    numero: '02',
+    titulo: 'Estrategia',
+    texto: 'Definimos qué plataforma atiende cada objetivo, con qué presupuesto y en qué orden. Lo que no se va a hacer también queda por escrito.',
+  },
+  {
+    numero: '03',
+    titulo: 'Producción e implementación',
+    texto: 'Creamos el contenido, montamos las campañas y dejamos la medición verificada antes de invertir.',
+  },
+  {
+    numero: '04',
+    titulo: 'Medición',
+    texto: 'Dashboards personalizados con el análisis de la campaña y el comportamiento de quien sí está convirtiendo, con total transparencia.',
+  },
+];
+
+const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
+---
+
+<BaseLayout
+  title="Agencia de Redes Sociales en México | Futurité"
+  description="Agencia de redes sociales para Meta, TikTok, LinkedIn y YouTube. Contenido y pauta que se miden en prospectos y ventas, no en seguidores."
+  canonical={URL_PAGINA}
+  jsonLd={jsonLd}
+>
+  <!-- 1 · Hero -->
+  <Hero
+    antetitulo="Redes sociales que se miden en clientes, no en seguidores"
+    titulo="Agencia de redes sociales en México"
+    bajada="Operamos Meta, TikTok, LinkedIn y YouTube para marcas de todo el país. Producimos el contenido, manejamos la pauta y reportamos lo que cuesta cada prospecto y cada venta."
+    botones={[
+      { texto: 'Agenda una reunión', href: CONTACTO, variante: 'primario', gtm: 'hero-primario' },
+      { texto: 'Ver cómo trabajamos', href: '#como-trabajamos', variante: 'fantasma', gtm: 'hero-secundario' },
+    ]}
+  />
+
+  <!-- 2 · Qué hace una agencia de redes sociales -->
+  <section class="seccion">
+    <div class="contenedor intro">
+      <h2>¿Qué hace una agencia de redes sociales?</h2>
+      <div class="linea"></div>
+      <p>
+        Una agencia de redes sociales se encarga de dos cosas que suelen venderse juntas pero
+        funcionan distinto: el contenido que publicas y la publicidad que pagas. El contenido
+        construye la marca y sostiene la conversación; la pauta compra alcance y genera prospectos
+        desde el primer día.
+      </p>
+      <p>
+        Lo que cambió en los últimos años es dónde está el trabajo. Antes la ventaja estaba en
+        segmentar bien: elegir edades, intereses y ubicaciones. Hoy las plataformas deciden eso
+        solas con sus propios sistemas automatizados. Lo que sí sigue en manos de la agencia es la
+        calidad del dato que alimenta a esos sistemas y la cantidad y calidad de creativo que les
+        das para trabajar.
+      </p>
+    </div>
+  </section>
+
+  <!-- 3, 4 y 5 · La terna de argumentos -->
+  {bloques.map((b) => (
+    <BloqueArgumento
+      kicker={b.kicker}
+      titulo={b.titulo}
+      bullets={b.bullets}
+      cta={b.cta}
+      figura={b.figura}
+      ladoImagen={b.ladoImagen}
+      fondo={b.fondo}
+    />
+  ))}
+
+  <!-- 6 · IA -->
+  <IABloque
+    titulo="Dónde usamos inteligencia artificial y dónde no"
+    entrada="La IA está metida en nuestro proceso desde hace tiempo. No la usamos para abaratar el trabajo sino para hacer más del que sí mueve resultados."
+    si={iaSi}
+    no={iaNo}
+    cierre="La IA nos permite producir más y decidir más rápido. No cambia quién responde por lo que se publica."
+  />
+
+  <!-- 7 · Plataformas -->
+  <Plataformas
+    titulo="En qué plataformas conviene estar"
+    entrada="Ninguna es mejor que las otras en abstracto. Depende de qué vendes, a quién y con qué ticket. Ésta es la comparación honesta."
+  />
+
+  <!-- 8 · Qué incluye el servicio -->
+  <section class="seccion incluye">
+    <div class="contenedor">
+      <div class="incluye__intro">
+        <span class="kicker">El servicio</span>
+        <h2>Qué incluye el servicio</h2>
+        <div class="linea"></div>
+      </div>
+      <ul class="incluye__lista">
+        {incluye.map((i) => (
+          <li class="incluye__item">
+            <span class="incluye__check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+            </span>
+            {i}
+          </li>
+        ))}
+      </ul>
+      <p class="incluye__nota">
+        El volumen de contenido y la mezcla de formatos se definen por cliente, según el objetivo y
+        la estrategia. No trabajamos con paquetes cerrados de piezas al mes.
+      </p>
+    </div>
+  </section>
+
+  <!-- 9 · Cómo trabajamos -->
+  <div id="como-trabajamos">
+    <Proceso
+      titulo="Cómo trabajamos"
+      entrada="Sin cajas negras: cada etapa deja algo revisable."
+      pasos={pasos}
+    />
+  </div>
+
+  <!-- 10 · Credenciales -->
+  <section class="seccion credenciales">
+    <div class="contenedor credenciales__inner">
+      <div class="credenciales__badges">
+        <span class="badge">Meta<strong>Business Partner</strong></span>
+        <span class="badge">Google<strong>Partner Premier</strong></span>
+      </div>
+      <div class="credenciales__texto">
+        <p>
+          Futurité es <strong>Meta Business Partner</strong> y
+          <strong>Google Partner Premier</strong>. Ambos programas exigen certificaciones vigentes
+          del equipo y desempeño sostenido de las cuentas que gestiona la agencia.
+        </p>
+        <p class="credenciales__cifras">
+          Más de <strong>17 años</strong> operando campañas en México, en más de
+          <strong>40 giros</strong> distintos, para marcas de Monterrey, Ciudad de México,
+          Guadalajara, Querétaro, Toluca y Cancún.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!--
+    11 · Casos — fuera de esta versión (sección 9 del brief).
+    El espacio queda previsto aquí, entre Credenciales y Preguntas frecuentes,
+    para no rehacer el layout cuando llegue el caso de redes sociales.
+    <CasosRedes />
+  -->
+
+  <!-- 12 · Preguntas frecuentes -->
+  <FaqAccordion titulo="Preguntas frecuentes" />
+
+  <!-- 13 · Cierre y enlaces cruzados -->
+  <CierreCta
+    titulo="Dinos qué vendes y a quién. Te decimos en qué plataforma conviene empezar antes de cobrarte por averiguarlo."
+    cta={{ texto: 'Contáctanos', href: CONTACTO }}
+  />
+</BaseLayout>
+
+<style>
+  .intro { max-width: 820px; }
+  .intro p { font-size: 18px; color: var(--color-texto-suave); }
+
+  .incluye { background: var(--color-acento-pastel); }
+  .incluye__intro { margin-bottom: 34px; }
+  .incluye__lista {
+    list-style: none;
+    margin: 0 0 30px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 34px;
+  }
+  .incluye__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 17px;
+    color: var(--color-texto-suave);
+    background: #fff;
+    border: 2px solid var(--color-borde);
+    border-radius: 14px;
+    padding: 16px 20px;
+  }
+  .incluye__check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--color-acento);
+  }
+  .incluye__check svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: var(--color-marca);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .incluye__nota {
+    max-width: 78ch;
+    font-size: 16.5px;
+    color: var(--color-texto-suave);
+    margin: 0;
+  }
+
+  .credenciales { background: var(--color-fondo-alt); }
+  .credenciales__inner {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 44px;
+    align-items: center;
+  }
+  .credenciales__badges { display: grid; gap: 14px; }
+  /* PENDIENTE: sustituir por los assets reales de los badges que ya usa el
+     home (Meta Business Partner y Google Partner Premier). */
+  .badge {
+    display: block;
+    background: #fff;
+    border: 2px solid var(--color-borde);
+    border-left: 6px solid var(--color-acento);
+    border-radius: 14px;
+    padding: 14px 20px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-marca-medio);
+  }
+  .badge strong {
+    display: block;
+    font-size: 17px;
+    letter-spacing: .4px;
+    color: var(--color-marca);
+  }
+  .credenciales__texto p { font-size: 18px; color: var(--color-texto-suave); }
+  .credenciales__texto strong { color: var(--color-marca); }
+  .credenciales__cifras { margin-bottom: 0; }
+
+  @media (max-width: 991px) {
+    .incluye__lista { grid-template-columns: 1fr; }
+    .credenciales__inner { grid-template-columns: 1fr; gap: 28px; }
+    .credenciales__badges { grid-template-columns: 1fr 1fr; display: grid; }
+  }
+  @media (max-width: 575px) {
+    .credenciales__badges { grid-template-columns: 1fr; }
+  }
+</style>
