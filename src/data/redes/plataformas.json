@@ -32,17 +32,11 @@
     "logo": "youtube.webp"
   },
   {
-    "id": "x",
-    "nombre": "X",
-    "detalle": "",
-    "aFavor": "Tiene sentido en categorías específicas: tecnología, medios, conversación pública.",
-    "enContra": "Alcance limitado para venta directa en el mercado mexicano."
-  },
-  {
     "id": "whatsapp",
     "nombre": "WhatsApp",
     "detalle": "",
     "aFavor": "En México buena parte de la conversión termina ahí, así que lo tratamos como parte de la campaña y no como algo que pasa después.",
-    "enContra": "No es una plataforma de pauta, es el destino: depende de que otra plataforma traiga la conversación."
+    "enContra": "No es una plataforma de pauta, es el destino: depende de que otra plataforma traiga la conversación.",
+    "logo": "whatsapp.svg"
   }
 ]

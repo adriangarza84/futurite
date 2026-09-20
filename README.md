@@ -142,10 +142,26 @@ limpio o en el color propio del icono, sin franja gris.
   iconos pesen parecido y no se repita el nombre que ya va en el H3.
 - **TikTok y LinkedIn**: el icono de app completo, sin el margen blanco del
   recorte original.
+- **WhatsApp**: el logotipo oficial en SVG. El archivo que se había recibido
+  traía un "+" (era el icono de WhatsApp Plus, una app modificada), así que se
+  descartó.
+
+**X salió de la comparativa.** La sección quedó en cinco plataformas. No se
+dice en ningún lado que no se trabaje con X: simplemente no aparece. El enlace
+del footer a la cuenta de X de Futurité se queda, que es otra cosa.
 
 `LogoPlataforma.astro` usa el archivo cuando `plataformas.json` trae `logo`, y
 cae al glifo propio cuando no. Los logotipos van sin caja de color detrás; el
 glifo sí la lleva, para que se lea como icono y no como logo a medias.
+
+## Fondo del cierre
+
+La banda del CTA final lleva una textura de iconos sociales
+(`public/assets/img/redes/fondo-cierre.webp`, 20 KB) bajo una capa de marca de
+93% a 78% de opacidad. La capa no es decorativa: el fondo tiene zonas casi
+blancas y el texto es blanco. Medido sobre el píxel más claro de la imagen
+compuesto con la parte más transparente de la capa, el contraste contra blanco
+queda en **6.78:1** — arriba del 4.5:1 que pide el brief.
 
 ## Otras imágenes
 
@@ -210,16 +226,9 @@ acordeón es nativo, el click es el único gesto que hay que escuchar.
 
 ## Pendientes que siguen abiertos
 
-1. **Logotipos de X y WhatsApp.** Los de Meta, TikTok, LinkedIn y YouTube ya
-   son los oficiales, en `public/assets/img/plataformas/`. Los otros dos siguen
-   con el glifo propio de `LogoPlataforma.astro`, que es un dibujo, no el
-   logotipo de la marca. El de WhatsApp que se recibió trae un "+": es el icono
-   de WhatsApp Plus, una app modificada, no el oficial. En cuanto lleguen los
-   archivos se agregan a `plataformas.json` con el campo `logo` y el componente
-   los usa sin tocar código.
-2. **OG image** 1200×630 en `/assets/img/og/og-redes-sociales.jpg`.
-3. **Caso de éxito**: el hueco está previsto y comentado en la página, entre
+1. **OG image** 1200×630 en `/assets/img/og/og-redes-sociales.jpg`.
+2. **Caso de éxito**: el hueco está previsto y comentado en la página, entre
    Credenciales y Preguntas frecuentes.
-4. **Cifras del sitio**: el copy usa "+17 años" y "+40 giros". Otras páginas
+3. **Cifras del sitio**: el copy usa "+17 años" y "+40 giros". Otras páginas
    dicen otra cosa; conviene unificar antes de publicar.
-5. **ID de GTM** real.
+4. **ID de GTM** real.

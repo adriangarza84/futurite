@@ -7,6 +7,9 @@ const { titulo, cta } = Astro.props;
 
 // Los cuatro enlaces cruzados obligatorios del brief. Van dentro del texto,
 // no como lista de botones, y llevan su propio evento de medición.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const fondo = `${base}/assets/img/redes/fondo-cierre.webp`;
+
 const cruzados = [
   { texto: 'posicionamiento SEO orgánico', href: 'https://futurite.com/agencia-seo', id: 'seo' },
   { texto: 'campañas en buscadores con Google Ads', href: 'https://futurite.com/google-ads', id: 'google-ads' },
@@ -15,7 +18,7 @@ const cruzados = [
 ];
 ---
 
-<section class="seccion cierre">
+<section class="seccion cierre" style={`--fondo: url('${fondo}')`}>
   <div class="contenedor cierre__inner">
     <h2 class="cierre__titulo">{titulo}</h2>
     <a
@@ -36,8 +39,18 @@ const cruzados = [
 </section>
 
 <style>
+  /* La imagen va debajo de una capa de marca bastante opaca: el fondo tiene
+     zonas muy claras (iconos y una forma blanca al centro) y el texto es
+     blanco. Con la capa, el contraste se mantiene arriba de 4.5:1 en toda la
+     banda y la imagen se lee como textura, no como foto. */
   .cierre {
-    background: var(--grad-medio);
+    background-color: #29698a;
+    background-image:
+      linear-gradient(100deg, rgba(0, 40, 66, .93) 0%, rgba(0, 46, 76, .86) 52%, rgba(0, 52, 84, .78) 100%),
+      var(--fondo);
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
     color: #fff;
     text-align: center;
   }

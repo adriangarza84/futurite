@@ -3,10 +3,9 @@
 // Venían recortados de sitios de terceros, así que a cada uno se le quitó el
 // fondo y unos píxeles de más en la orilla para eliminar el halo del recorte.
 //
-// PENDIENTE: faltan los de X y WhatsApp. Mientras no lleguen, esos dos caen al
-// glifo monocromático de abajo, que es un dibujo propio y no el logotipo de la
-// marca. En cuanto haya archivo, se agrega "logo" en plataformas.json y este
-// componente lo usa sin más cambios.
+// Las cinco plataformas de la comparativa ya usan su logotipo oficial. El
+// glifo propio de abajo queda como respaldo: si una plataforma nueva entra a
+// plataformas.json sin campo "logo", dibuja el icono en vez de dejar el hueco.
 
 interface Props {
   id: string;
@@ -51,11 +50,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <svg viewBox="0 0 48 48" focusable="false">
       <rect x="7" y="13" width="34" height="22" rx="7" />
       <path d="M21 19.5l9 4.5-9 4.5z" class="relleno" />
-    </svg>
-  )}
-  {id === 'x' && (
-    <svg viewBox="0 0 48 48" focusable="false">
-      <path d="M13 12l22 24M35 12L13 36" />
     </svg>
   )}
   {id === 'whatsapp' && (
