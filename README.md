@@ -127,6 +127,18 @@ Los logos viven en `public/assets/img/clientes/` y se listan en
 - `"escala"` corrige los logos que quedan ópticamente chicos. El de MAC es casi
   cuadrado y a la misma altura que los demás se veía más pequeño; va en 1.3.
 
+## Otras imágenes
+
+- **Credenciales**: los logotipos oficiales de los dos programas, en
+  `public/assets/img/credenciales/`. El de Google es un sello cuadrado y el de
+  Meta un lockup horizontal, así que cada uno tiene su propia caja: se apilan en
+  escritorio y van lado a lado en móvil, sin deformarse.
+- **Central de Monitoreo**: la foto de las pantallas en
+  `public/assets/img/redes/central-de-monitoreo.webp`, en el bloque "Decisiones,
+  no reportes". Sustituye a la ilustración de línea que había ahí: el argumento
+  del bloque son los dashboards, y ésos son los dashboards. Los otros dos
+  bloques conservan su ilustración (`Figura.astro`).
+
 ## Medición
 
 La página no trae scripts de medición sueltos. Cada elemento medible expone
@@ -163,11 +175,9 @@ acordeón es nativo, el click es el único gesto que hay que escuchar.
 
 1. **SVG oficiales** de Meta, TikTok, LinkedIn, YouTube, X y WhatsApp.
    `LogoPlataforma.astro` trae glifos simplificados, no los logotipos de marca.
-2. **Badges** de Meta Business Partner y Google Partner Premier: hoy son un
-   bloque tipográfico. Sustituir por los assets del home.
-3. **OG image** 1200×630 en `/assets/img/og/og-redes-sociales.jpg`.
-4. **Caso de éxito**: el hueco está previsto y comentado en la página, entre
+2. **OG image** 1200×630 en `/assets/img/og/og-redes-sociales.jpg`.
+3. **Caso de éxito**: el hueco está previsto y comentado en la página, entre
    Credenciales y Preguntas frecuentes.
-5. **Cifras del sitio**: el copy usa "+17 años" y "+40 giros". Otras páginas
+4. **Cifras del sitio**: el copy usa "+17 años" y "+40 giros". Otras páginas
    dicen otra cosa; conviene unificar antes de publicar.
-6. **ID de GTM** real.
+5. **ID de GTM** real.

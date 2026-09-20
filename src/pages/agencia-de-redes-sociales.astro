@@ -11,6 +11,7 @@ import CierreCta from '../components/redes/CierreCta.astro';
 import { faqPageJsonLd, serviceJsonLd, URL_PAGINA } from '../lib/jsonld.js';
 
 const CONTACTO = 'https://futurite.com/contacto';
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // --- Copy aprobado (sección 6 del brief). No editar sin avisar a marketing. ---
 
@@ -54,6 +55,14 @@ const bloques = [
     ],
     cta: { texto: 'Contactar experto', href: CONTACTO, posicion: 'bloque-5-decisiones' },
     figura: 'decisiones',
+    // Foto real de la Central de Monitoreo: el argumento del bloque es que
+    // entregamos decisiones, y los dashboards son justo lo que se ve ahí.
+    imagen: {
+      src: `${BASE}/assets/img/redes/central-de-monitoreo.webp`,
+      alt: 'Pantallas de la Central de Monitoreo de Futurité con los tableros de campañas en vivo',
+      width: 617,
+      height: 301,
+    },
     ladoImagen: 'derecha',
     fondo: 'blanco',
   },
@@ -180,6 +189,7 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
       bullets={b.bullets}
       cta={b.cta}
       figura={b.figura}
+      imagen={b.imagen}
       ladoImagen={b.ladoImagen}
       fondo={b.fondo}
     />
@@ -241,8 +251,27 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
   <section class="seccion credenciales">
     <div class="contenedor credenciales__inner">
       <div class="credenciales__badges">
-        <span class="badge">Meta<strong>Business Partner</strong></span>
-        <span class="badge">Google<strong>Partner Premier</strong></span>
+        {/* Los logotipos oficiales de los dos programas. El de Google es un
+            sello cuadrado y el de Meta un lockup horizontal: cada uno tiene su
+            propia caja para que ninguno se vea deformado ni desproporcionado. */}
+        <img
+          class="badge badge--google"
+          src={`${BASE}/assets/img/credenciales/google-partner-premier-2026.webp`}
+          alt="Google Partner Premier 2026"
+          width="440"
+          height="420"
+          loading="lazy"
+          decoding="async"
+        />
+        <img
+          class="badge badge--meta"
+          src={`${BASE}/assets/img/credenciales/meta-business-partner.svg`}
+          alt="Meta Business Partners"
+          width="7350"
+          height="1203"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
       <div class="credenciales__texto">
         <p>
@@ -334,27 +363,15 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
     gap: 44px;
     align-items: center;
   }
-  .credenciales__badges { display: grid; gap: 14px; }
-  /* PENDIENTE: sustituir por los assets reales de los badges que ya usa el
-     home (Meta Business Partner y Google Partner Premier). */
-  .badge {
-    display: block;
-    background: #fff;
-    border: 2px solid var(--color-borde);
-    border-left: 6px solid var(--color-acento);
-    border-radius: 14px;
-    padding: 14px 20px;
-    font-size: 14px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--color-marca-medio);
+  .credenciales__badges {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 26px;
   }
-  .badge strong {
-    display: block;
-    font-size: 17px;
-    letter-spacing: .4px;
-    color: var(--color-marca);
-  }
+  .badge { display: block; width: auto; height: auto; }
+  .badge--google { max-height: 164px; max-width: 100%; }
+  .badge--meta { max-width: 290px; }
   .credenciales__texto p { font-size: 18px; color: var(--color-texto-suave); }
   .credenciales__texto strong { color: var(--color-marca); }
   .credenciales__cifras { margin-bottom: 0; }
@@ -362,9 +379,14 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
   @media (max-width: 991px) {
     .incluye__lista { grid-template-columns: 1fr; }
     .credenciales__inner { grid-template-columns: 1fr; gap: 28px; }
-    .credenciales__badges { grid-template-columns: 1fr 1fr; display: grid; }
+    /* En una sola columna los dos sellos caben lado a lado. */
+    .credenciales__badges { flex-direction: row; align-items: center; gap: 34px; }
+    .badge--google { max-height: 110px; }
+    .badge--meta { max-width: 230px; }
   }
   @media (max-width: 575px) {
-    .credenciales__badges { grid-template-columns: 1fr; }
+    .credenciales__badges { gap: 22px; }
+    .badge--google { max-height: 88px; }
+    .badge--meta { max-width: 170px; }
   }
 </style>
