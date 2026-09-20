@@ -63,16 +63,18 @@ src/
   components/Header.astro           menú con "Software a la medida"
   components/Footer.astro           versión actual, X y seis ciudades
   components/redes/
-    Hero.astro
+    Hero.astro                      video de fondo + póster
     BloqueArgumento.astro           reutilizable, 3 usos (secciones 3, 4 y 5)
     Figura.astro                    ilustraciones SVG de los bloques
     IABloque.astro                  dos columnas, tratamiento propio
     Plataformas.astro               seis filas, lee plataformas.json
     LogoPlataforma.astro            glifos monocromáticos
     Proceso.astro                   cuatro pasos numerados
+    Clientes.astro                  barra de logos, lee clientes.json
     FaqAccordion.astro              <details>/<summary>, lee faqs.json
     CierreCta.astro                 CTA final + cuatro enlaces cruzados
   data/redes/plataformas.json       las seis plataformas
+  data/redes/clientes.json          los nueve logos de clientes
   data/redes/faqs.json              las nueve preguntas
   lib/jsonld.js                     FAQPage y Service desde los mismos datos
   pages/agencia-de-redes-sociales.astro
@@ -83,6 +85,47 @@ El brief pedía los datos en `content/redes/`. Van en `data/redes/` porque Astro
 reserva `src/content/` para content collections y genera una colección
 automática (deprecada) con cualquier carpeta que encuentre ahí. Mismo criterio,
 carpeta distinta: el equipo de contenido edita JSON sin abrir un `.astro`.
+
+## Video del hero
+
+Se conserva el mismo clip que ya usa la página en producción, con las mismas
+reglas de `hero-video.css`:
+
+- `public/assets/video/hero-redes.mp4` (385 KB) y su póster
+  `public/assets/img/heroes/hero-redes.jpg`, que es el primer cuadro del propio
+  video: no hay salto cuando arranca y solo se descarga una imagen, no dos.
+- El video es un adorno. Si no carga, si el navegador bloquea la reproducción o
+  si el usuario pidió menos movimiento, queda el póster y la página se ve igual.
+- **No se descarga en móvil ni tablet** (menos de 992 px) ni con
+  `prefers-reduced-motion`. Ahí el costo de datos no se justifica y es donde el
+  rendimiento está más apretado.
+- Capa oscura encima del video para que el texto blanco del hero mantenga
+  contraste AA.
+
+Esto obliga a un script de 12 líneas dentro de `Hero.astro`: el `src` vive en
+`data-src` y solo se activa cuando conviene. Es el único JavaScript propio de
+la página además de GTM, y no renderiza nada — todo el texto sigue en el HTML
+inicial.
+
+## Barra de clientes
+
+Va después de "Cómo trabajamos" y antes de Credenciales. Título a la izquierda,
+rejilla de logos a la derecha (3 columnas en escritorio, 2 en móvil), con la
+misma estructura que la banda de clientes del home.
+
+Los logos viven en `public/assets/img/clientes/` y se listan en
+`src/data/redes/clientes.json`. Agregar o quitar uno es editar ese JSON.
+
+- Los cinco que ya estaban en el sitio (InverCap, Terza, Elizondo, Financiería
+  Me-Xi y Tecmilenio) se tomaron de `/assets/img/portafolio/logo-clientes/` y se
+  redujeron de 1667 px a 500 px de ancho: 305 KB → 48 KB.
+- Infiniti y Hospitales MAC son SVG; Christus Muguerza, WebP.
+- Hípico La Silla viene en blanco sobre transparente. En vez de reeditarlo, se
+  pasa a gris oscuro con `filter: brightness(0) invert(.28)`, marcado con
+  `"tono": "gris"` en el JSON. Si algún día llega la versión a color, se quita
+  esa línea y ya.
+- `"escala"` corrige los logos que quedan ópticamente chicos. El de MAC es casi
+  cuadrado y a la misma altura que los demás se veía más pequeño; va en 1.3.
 
 ## Medición
 
@@ -101,8 +144,9 @@ acordeón es nativo, el click es el único gesto que hay que escuchar.
 
 ## Verificado
 
-- Build limpio, una sola página, cero JavaScript propio de render.
-- Un solo `<h1>`; los diez H2 en orden; las preguntas del FAQ en H3.
+- Build limpio y cero JavaScript de render (el único script propio decide si
+  descarga el video del hero).
+- Un solo `<h1>`; los once H2 en orden; las preguntas del FAQ en H3.
 - `FAQPage` (9 preguntas) y `Service` en el `<head>`, generados desde los JSON.
 - Las nueve respuestas están en el HTML inicial con el acordeón cerrado.
 - Canonical, robots y OG puestos; `meta-keywords` no existe.
@@ -111,6 +155,9 @@ acordeón es nativo, el click es el único gesto que hay que escuchar.
   del protocolo y no texto de la página).
 - 360, 768, 1024 y 1440 sin desbordamiento horizontal; en 360 los dos botones
   del hero caen arriba del pliegue.
+- El video arranca en escritorio y no se descarga en móvil: ahí queda el póster.
+- Los nueve logos de clientes cargan y la rejilla reserva su espacio antes de
+  que lleguen, así que no hay salto de layout.
 
 ## Pendientes que siguen abiertos
 
@@ -118,12 +165,9 @@ acordeón es nativo, el click es el único gesto que hay que escuchar.
    `LogoPlataforma.astro` trae glifos simplificados, no los logotipos de marca.
 2. **Badges** de Meta Business Partner y Google Partner Premier: hoy son un
    bloque tipográfico. Sustituir por los assets del home.
-3. **Hero**: decidir astronauta o pieza nueva. El degradado funciona solo; en
-   `Hero.astro` está lista la línea para la imagen (`hero-redes.webp`,
-   `fetchpriority="high"`, sin carga diferida).
-4. **OG image** 1200×630 en `/assets/img/og/og-redes-sociales.jpg`.
-5. **Caso de éxito**: el hueco está previsto y comentado en la página, entre
+3. **OG image** 1200×630 en `/assets/img/og/og-redes-sociales.jpg`.
+4. **Caso de éxito**: el hueco está previsto y comentado en la página, entre
    Credenciales y Preguntas frecuentes.
-6. **Cifras del sitio**: el copy usa "+17 años" y "+40 giros". Otras páginas
+5. **Cifras del sitio**: el copy usa "+17 años" y "+40 giros". Otras páginas
    dicen otra cosa; conviene unificar antes de publicar.
-7. **ID de GTM** real.
+6. **ID de GTM** real.

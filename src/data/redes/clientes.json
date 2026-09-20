@@ -1,0 +1,58 @@
+[
+  {
+    "nombre": "InverCap Afore",
+    "archivo": "invercap.webp",
+    "ancho": 500,
+    "alto": 125
+  },
+  {
+    "nombre": "Terza",
+    "archivo": "terza.webp",
+    "ancho": 500,
+    "alto": 125
+  },
+  {
+    "nombre": "Elizondo",
+    "archivo": "elizondo.webp",
+    "ancho": 500,
+    "alto": 125
+  },
+  {
+    "nombre": "Financiería Me-Xi",
+    "archivo": "financieriamexi.webp",
+    "ancho": 500,
+    "alto": 125
+  },
+  {
+    "nombre": "Infiniti",
+    "archivo": "infiniti.svg",
+    "ancho": 189,
+    "alto": 24
+  },
+  {
+    "nombre": "Universidad Tecmilenio",
+    "archivo": "tecmilenio.webp",
+    "ancho": 500,
+    "alto": 125
+  },
+  {
+    "nombre": "Hípico La Silla",
+    "archivo": "hipico-la-silla.avif",
+    "ancho": 360,
+    "alto": 52,
+    "tono": "gris"
+  },
+  {
+    "nombre": "Christus Muguerza",
+    "archivo": "christus-muguerza.webp",
+    "ancho": 440,
+    "alto": 152
+  },
+  {
+    "nombre": "Hospitales MAC",
+    "archivo": "hospitales-mac.svg",
+    "ancho": 74,
+    "alto": 61,
+    "escala": 1.3
+  }
+]

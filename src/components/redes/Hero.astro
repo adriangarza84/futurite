@@ -7,9 +7,30 @@ interface Props {
 }
 
 const { antetitulo, titulo, bajada, botones } = Astro.props;
+
+// Mismos archivos que hoy sirve el sitio, en las mismas rutas. El póster es el
+// primer cuadro del propio video: no hay salto cuando el video arranca y solo
+// se descarga una imagen, no dos.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const poster = `${base}/assets/img/heroes/hero-redes.jpg`;
+const video = `${base}/assets/video/hero-redes.mp4`;
 ---
 
-<section class="hero">
+<section class="hero hv-hero" style={`--poster: url('${poster}')`}>
+  {/* El video es un adorno: si no carga, si el navegador no lo deja reproducir
+      o si el usuario pidió menos movimiento, queda el póster y la página se ve
+      igual. Por eso el src va en data-src y lo activa hero-video.js. */}
+  <video
+    class="hv-video"
+    data-src={video}
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="none"
+    aria-hidden="true"
+    tabindex="-1"></video>
+
   <div class="contenedor hero__inner">
     {/* Antetítulo con peso visual de H2 pero marcado como <p>: la página
         conserva un solo H1 y el orden de encabezados no se rompe. */}
@@ -31,27 +52,65 @@ const { antetitulo, titulo, bajada, botones } = Astro.props;
   </div>
 </section>
 
+{/* Único script de la página además de GTM, y no renderiza nada: solo decide
+    si vale la pena descargar el video. Mismo criterio que hero-video.js del
+    sitio. Si este script no corre, el hero se queda en el póster. */}
+<script is:inline>
+  (function () {
+    var v = document.querySelector('.hv-video');
+    if (!v || !v.dataset.src) return;
+    // Ni en móvil ni en tablet: ahí el costo de datos no se justifica y es
+    // donde el rendimiento está más apretado.
+    if (!window.matchMedia('(min-width: 992px)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    v.addEventListener('canplay', function () { v.classList.add('hv-lista'); }, { once: true });
+    v.src = v.dataset.src;
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { /* autoplay bloqueado: queda el póster */ });
+  })();
+</script>
+
 <style>
   .hero {
     position: relative;
+    overflow: hidden;
     background: var(--grad-oscuro);
+    background-image: var(--poster), var(--grad-oscuro);
+    background-size: cover;
+    background-position: center;
     color: #fff;
     padding: 92px 0 84px;
-    overflow: hidden;
   }
-  /* Textura de marca. Si se sube la pieza definitiva a
-     /assets/img/heroes/hero-redes.webp, se descomenta la línea de abajo; sin
-     ella el degradado funciona solo y no hay petición extra ni CLS. */
+
+  .hv-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    /* Arranca invisible y aparece cuando ya hay imagen: evita el parpadeo
+       negro del primer cuadro sobre el póster. */
+    opacity: 0;
+    transition: opacity .6s ease-in;
+    pointer-events: none;
+  }
+  .hv-video.hv-lista { opacity: 1; }
+
+  /* Capa oscura: el clip es más claro que el fondo de marca y el texto del
+     hero es blanco. Mismo degradado que usa el sitio hoy. */
   .hero::after {
     content: '';
     position: absolute;
     inset: 0;
-    /* background: url('https://futurite.com/assets/img/heroes/hero-redes.webp') center/cover no-repeat; */
-    background-image: radial-gradient(circle at 18% 22%, rgba(0, 205, 255, .16), transparent 42%),
-                      radial-gradient(circle at 82% 68%, rgba(0, 205, 255, .12), transparent 46%);
+    z-index: 1;
+    background:
+      linear-gradient(90deg, rgba(0, 28, 46, .86) 0%, rgba(0, 28, 46, .66) 45%, rgba(0, 28, 46, .42) 100%),
+      radial-gradient(circle at 18% 22%, rgba(0, 205, 255, .16), transparent 42%);
     pointer-events: none;
   }
-  .hero__inner { position: relative; z-index: 1; max-width: 900px; }
+
+  .hero__inner { position: relative; z-index: 2; max-width: 900px; }
 
   .hero__antetitulo {
     font-size: 22px;
@@ -63,15 +122,21 @@ const { antetitulo, titulo, bajada, botones } = Astro.props;
   .hero__h1 { color: #fff; margin-bottom: 18px; }
   .hero__bajada {
     font-size: 19px;
-    color: rgba(255, 255, 255, .86);
+    color: rgba(255, 255, 255, .9);
     max-width: 66ch;
     margin-bottom: 30px;
   }
   .hero__botones { display: flex; flex-wrap: wrap; gap: 14px; }
 
+  /* Sin video en móvil ni tablet, y sin video para quien pidió menos
+     movimiento: en ambos casos se queda el póster. */
   @media (max-width: 991px) {
+    .hv-video { display: none; }
     .hero { padding: 66px 0 58px; }
     .hero__antetitulo { font-size: 19px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hv-video { display: none; }
   }
   @media (max-width: 767px) {
     .hero { padding: 42px 0 44px; }

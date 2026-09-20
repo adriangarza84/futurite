@@ -1,0 +1,94 @@
+---
+import clientes from '../../data/redes/clientes.json';
+
+interface Props {
+  titulo: string;
+}
+const { titulo } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+{/* Misma estructura que la banda de clientes del home: título a la izquierda,
+    rejilla de logos a la derecha. Los logos van a color, salvo el de Hípico La
+    Silla, que viene en blanco y se pasa a gris oscuro con un filtro (marcado
+    con "tono": "gris" en clientes.json). */}
+<section class="seccion clientes">
+  <div class="contenedor clientes__grid">
+    <div class="clientes__intro">
+      <span class="kicker">Prueba social</span>
+      <h2>Clientes que nos respaldan</h2>
+      <div class="linea"></div>
+    </div>
+
+    <ul class="clientes__logos">
+      {clientes.map((c) => (
+        <li
+          class={`clientes__item${c.tono === 'gris' ? ' clientes__item--gris' : ''}`}
+          style={c.escala ? `--escala: ${c.escala}` : undefined}
+        >
+          <img
+            src={`${base}/assets/img/clientes/${c.archivo}`}
+            alt={c.nombre}
+            width={c.ancho}
+            height={c.alto}
+            loading="lazy"
+            decoding="async"
+          />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .clientes { background: var(--color-fondo); }
+  .clientes__grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+  .clientes__intro h2 { margin-bottom: 0; }
+
+  .clientes__logos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px 24px;
+    align-items: center;
+  }
+  .clientes__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 76px;
+    padding: 0 8px;
+  }
+  /* Los logos tienen proporciones muy distintas: los alargados topan con el
+     ancho y los cuadrados con el alto, así ninguno domina la rejilla. "escala"
+     en clientes.json corrige los que quedan ópticamente chicos (el de MAC es
+     casi cuadrado y a la misma altura se veía más pequeño que el resto). */
+  .clientes__item img {
+    width: auto;
+    height: auto;
+    max-height: calc(56px * var(--escala, 1));
+    max-width: 100%;
+    object-fit: contain;
+  }
+  /* El de Hípico viene en blanco sobre transparente; brightness(0) lo vuelve
+     negro e invert(.28) lo sube a gris oscuro. */
+  .clientes__item--gris img { filter: brightness(0) invert(.28); }
+
+  @media (max-width: 991px) {
+    .clientes__grid { grid-template-columns: 1fr; gap: 34px; }
+    .clientes__logos { gap: 26px 20px; }
+  }
+  @media (max-width: 575px) {
+    .clientes__logos { grid-template-columns: repeat(2, 1fr); }
+    .clientes__item { min-height: 62px; }
+    .clientes__item img { max-height: calc(44px * var(--escala, 1)); }
+  }
+</style>

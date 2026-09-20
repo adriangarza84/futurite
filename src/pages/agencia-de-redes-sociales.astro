@@ -5,6 +5,7 @@ import BloqueArgumento from '../components/redes/BloqueArgumento.astro';
 import IABloque from '../components/redes/IABloque.astro';
 import Plataformas from '../components/redes/Plataformas.astro';
 import Proceso from '../components/redes/Proceso.astro';
+import Clientes from '../components/redes/Clientes.astro';
 import FaqAccordion from '../components/redes/FaqAccordion.astro';
 import CierreCta from '../components/redes/CierreCta.astro';
 import { faqPageJsonLd, serviceJsonLd, URL_PAGINA } from '../lib/jsonld.js';
@@ -232,6 +233,9 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
       pasos={pasos}
     />
   </div>
+
+  <!-- 9 bis · Clientes que nos respaldan -->
+  <Clientes titulo="Clientes que nos respaldan" />
 
   <!-- 10 · Credenciales -->
   <section class="seccion credenciales">
