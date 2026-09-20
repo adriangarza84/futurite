@@ -133,6 +133,10 @@ Los logos viven en `public/assets/img/clientes/` y se listan en
   `public/assets/img/credenciales/`. El de Google es un sello cuadrado y el de
   Meta un lockup horizontal, así que cada uno tiene su propia caja: se apilan en
   escritorio y van lado a lado en móvil, sin deformarse.
+- **Medición verificada**: el panel del pixel y la API de Conversiones en
+  `public/assets/img/redes/medicion-verificada.webp`, en el bloque "El dato
+  antes que el contenido". Mismo tratamiento que la anterior: se midió el
+  contenido (x 1081-1911, y 200-847) y se recortó con 30 px de margen.
 - **Creativo por plataforma**: el mockup de los tres dispositivos en
   `public/assets/img/redes/creativo-por-plataforma.webp`, en el bloque "El
   creativo es la nueva segmentación". Es un recorte del archivo original, que
@@ -142,10 +146,13 @@ Los logos viven en `public/assets/img/clientes/` y se listan en
   `public/assets/img/redes/central-de-monitoreo.webp`, en el bloque "Decisiones,
   no reportes". Sustituye a la ilustración de línea que había ahí: el argumento
   del bloque son los dashboards, y ésos son los dashboards. Los otros dos
-  bloques conservan su ilustración (`Figura.astro`). Hoy solo el primero, "El
-  dato antes que el contenido", sigue con dibujo.
+  bloques conservan su ilustración (`Figura.astro`).
 
-Las dos fotos son verticales u horizontales según el caso, así que
+Con esto los tres bloques de argumento ya usan foto. `Figura.astro` se queda
+como respaldo del componente: si un bloque se queda sin `imagen`, dibuja la
+ilustración de línea en vez de dejar el hueco vacío.
+
+Las fotos son verticales u horizontales según el caso, así que
 `BloqueArgumento` topa la imagen en 520 px de alto además del ancho: una pieza
 vertical crecería más que la columna de texto y desbalancearía el bloque.
 
