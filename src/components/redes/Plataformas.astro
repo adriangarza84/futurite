@@ -24,7 +24,7 @@ const { titulo, entrada } = Astro.props;
       {plataformas.map((p) => (
         <li class="plat__fila">
           <div class="plat__marca">
-            <LogoPlataforma id={p.id} nombre={p.nombre} />
+            <LogoPlataforma id={p.id} nombre={p.nombre} logo={p.logo} />
             <div>
               <h3 class="plat__nombre">{p.nombre}</h3>
               {p.detalle && <p class="plat__detalle">{p.detalle}</p>}

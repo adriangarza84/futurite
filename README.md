@@ -127,6 +127,26 @@ Los logos viven en `public/assets/img/clientes/` y se listan en
 - `"escala"` corrige los logos que quedan ópticamente chicos. El de MAC es casi
   cuadrado y a la misma altura que los demás se veía más pequeño; va en 1.3.
 
+## Logotipos de plataformas
+
+Venían recortados de sitios de terceros, con el fondo del sitio pegado en las
+orillas. A cada uno se le midió la caja del contenido y se le comieron unos
+píxeles de más para quitar el halo del antialias: los bordes quedan en blanco
+limpio o en el color propio del icono, sin franja gris.
+
+- **Meta**: se extrajo del SVG de Meta Business Partners que ya estaba en el
+  repo, recortando el viewBox al glifo. Es vector, así que se ve nítido a
+  cualquier tamaño; el PNG que se recibió medía 68 px de alto y se habría visto
+  borroso en pantalla retina.
+- **YouTube**: del lockup solo se conservó el botón de play, para que los cuatro
+  iconos pesen parecido y no se repita el nombre que ya va en el H3.
+- **TikTok y LinkedIn**: el icono de app completo, sin el margen blanco del
+  recorte original.
+
+`LogoPlataforma.astro` usa el archivo cuando `plataformas.json` trae `logo`, y
+cae al glifo propio cuando no. Los logotipos van sin caja de color detrás; el
+glifo sí la lleva, para que se lea como icono y no como logo a medias.
+
 ## Otras imágenes
 
 - **Credenciales**: los logotipos oficiales de los dos programas, en
@@ -190,8 +210,13 @@ acordeón es nativo, el click es el único gesto que hay que escuchar.
 
 ## Pendientes que siguen abiertos
 
-1. **SVG oficiales** de Meta, TikTok, LinkedIn, YouTube, X y WhatsApp.
-   `LogoPlataforma.astro` trae glifos simplificados, no los logotipos de marca.
+1. **Logotipos de X y WhatsApp.** Los de Meta, TikTok, LinkedIn y YouTube ya
+   son los oficiales, en `public/assets/img/plataformas/`. Los otros dos siguen
+   con el glifo propio de `LogoPlataforma.astro`, que es un dibujo, no el
+   logotipo de la marca. El de WhatsApp que se recibió trae un "+": es el icono
+   de WhatsApp Plus, una app modificada, no el oficial. En cuanto lleguen los
+   archivos se agregan a `plataformas.json` con el campo `logo` y el componente
+   los usa sin tocar código.
 2. **OG image** 1200×630 en `/assets/img/og/og-redes-sociales.jpg`.
 3. **Caso de éxito**: el hueco está previsto y comentado en la página, entre
    Credenciales y Preguntas frecuentes.

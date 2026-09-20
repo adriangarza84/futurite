@@ -1,19 +1,33 @@
 ---
-// Marcas monocromáticas en color de marca, para que la sección no se vuelva un
-// arcoíris de logos ajenos.
+// Logotipos oficiales de cada plataforma, en `public/assets/img/plataformas/`.
+// Venían recortados de sitios de terceros, así que a cada uno se le quitó el
+// fondo y unos píxeles de más en la orilla para eliminar el halo del recorte.
 //
-// PENDIENTE (sección 9 del brief): sustituir por los SVG oficiales de cada
-// plataforma cuando diseño los entregue. Estos son glifos simplificados, no los
-// logotipos de marca: sirven para maquetar y para que la sección funcione hoy.
+// PENDIENTE: faltan los de X y WhatsApp. Mientras no lleguen, esos dos caen al
+// glifo monocromático de abajo, que es un dibujo propio y no el logotipo de la
+// marca. En cuanto haya archivo, se agrega "logo" en plataformas.json y este
+// componente lo usa sin más cambios.
 
 interface Props {
   id: string;
   nombre: string;
+  logo?: string;
 }
-const { id, nombre } = Astro.props;
+const { id, nombre, logo } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<span class="logo" role="img" aria-label={nombre}>
+{logo ? (
+  <span class="logo logo--oficial">
+    <img
+      src={`${base}/assets/img/plataformas/${logo}`}
+      alt={nombre}
+      loading="lazy"
+      decoding="async"
+    />
+  </span>
+) : (
+<span class="logo logo--glifo" role="img" aria-label={nombre}>
   {id === 'meta' && (
     <svg viewBox="0 0 48 48" focusable="false">
       <path d="M8 30c0-8 4-14 8.5-14S23 22 24 24c1-2 3.5-8 7.5-8S40 22 40 30c0 4-2 6-4.5 6-3.5 0-6-4.5-8-9-1.4-3.2-2.4-5-3.5-5s-2.1 1.8-3.5 5c-2 4.5-4.5 9-8 9C10 36 8 34 8 30Z" />
@@ -51,6 +65,7 @@ const { id, nombre } = Astro.props;
     </svg>
   )}
 </span>
+)}
 
 <style>
   .logo {
@@ -61,9 +76,24 @@ const { id, nombre } = Astro.props;
     height: 66px;
     flex: 0 0 66px;
     border-radius: 18px;
+    color: var(--color-marca);
+  }
+  /* El logotipo oficial se muestra solo, sin caja de color detrás: cada marca
+     ya trae la suya. Se acota por alto para que los cuadrados (TikTok,
+     LinkedIn) y los alargados (YouTube, Meta) pesen parecido. */
+  .logo--oficial img {
+    display: block;
+    max-width: 100%;
+    max-height: 52px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  /* El glifo propio sí lleva caja, para que se lea como icono y no como logo
+     a medias. */
+  .logo--glifo {
     background: var(--color-acento-pastel);
     border: 2px solid var(--color-borde);
-    color: var(--color-marca);
   }
   .logo svg {
     width: 34px;
