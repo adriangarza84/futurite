@@ -84,44 +84,6 @@ const bloques = [
   },
 ];
 
-const iaSi = [
-  {
-    titulo: 'Investigación.',
-    texto: 'Escuchamos qué se dice de tu categoría, con qué palabras y en qué tono, a una escala que a mano no se alcanza.',
-  },
-  {
-    titulo: 'Volumen creativo.',
-    texto: 'Generamos variantes de copy, ganchos y ángulos para que la prueba tenga con qué comparar. Sin volumen, probar es adivinar.',
-  },
-  {
-    titulo: 'Producción.',
-    texto: 'Versiones por plataforma, cortes verticales, subtítulos, locución. Lo que antes tomaba días de edición hoy toma horas, y eso se traduce en más material en circulación.',
-  },
-  {
-    titulo: 'Análisis.',
-    texto: 'Identificamos qué creativo empieza a desgastarse y qué segmento se está encareciendo antes de que aparezca en el reporte mensual.',
-  },
-];
-
-const iaNo = [
-  {
-    titulo: 'Decidir qué se publica.',
-    texto: 'Todo pasa por revisión humana antes de salir. La IA propone; una persona firma.',
-  },
-  {
-    titulo: 'Responder por tu marca sin supervisión.',
-    texto: 'Comentarios y mensajes los atiende gente, con apoyo de herramientas, no al revés.',
-  },
-  {
-    titulo: 'Sectores regulados.',
-    texto: 'En salud y servicios financieros el texto tiene límites legales. Ahí la IA es borrador, nunca versión final.',
-  },
-  {
-    titulo: 'Inventar.',
-    texto: 'Ni resultados, ni casos, ni testimonios, ni datos que no podamos sostener.',
-  },
-];
-
 const incluye = [
   'Estrategia de comunicación y línea de contenido por plataforma',
   'Producción de contenido: diseño, video, copy y adaptación por formato',
@@ -213,11 +175,10 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
 
   <!-- 6 · IA -->
   <IABloque
-    titulo="Dónde usamos inteligencia artificial y dónde no"
-    entrada="La IA está metida en nuestro proceso desde hace tiempo. No la usamos para abaratar el trabajo sino para hacer más del que sí mueve resultados."
-    si={iaSi}
-    no={iaNo}
-    cierre="La IA nos permite producir más y decidir más rápido. No cambia quién responde por lo que se publica."
+    kicker="Inteligencia artificial"
+    titulo="El algoritmo no se optimiza. Se alimenta."
+    entrada="Meta y TikTok rehicieron su entrega alrededor de modelos que deciden en tiempo real qué anuncio ve cada persona. Esto es lo que quedó fuera de tu control, y lo que sigue estando dentro."
+    cierre="El algoritmo optimiza hacia donde lo apunten. Casi todo nuestro trabajo está en apuntarlo bien."
   />
 
   <!-- 7 · Plataformas -->

@@ -1,0 +1,79 @@
+[
+  {
+    "id": "subasta",
+    "num": "01",
+    "grupo": "sistema",
+    "titulo": "Quién entra a la subasta",
+    "tituloCorto": "La subasta",
+    "cuerpo": [
+      "Antes de que exista una puja, el sistema tiene que decidir cuáles de los millones de anuncios disponibles son siquiera candidatos para esa persona en ese instante. Esa etapa reduce el universo a unos pocos miles, y lo hace leyendo tu creativo: qué se ve, qué dice, de qué trata.",
+      "La consecuencia es incómoda y conviene decirla claro: si tu pieza no pasa ese filtro, no llega a la subasta. Ni el presupuesto ni una puja agresiva la rescatan, porque ninguno de los dos se evalúa todavía en esa etapa."
+    ]
+  },
+  {
+    "id": "precio",
+    "num": "02",
+    "grupo": "sistema",
+    "titulo": "Quién gana y a qué precio",
+    "tituloCorto": "El precio",
+    "cuerpo": [
+      "Los anuncios que sobreviven el filtro entran al ranking, donde el sistema estima el valor esperado de cada uno para esa impresión: qué tan probable es que esa persona haga clic, que convierta, y cuánto está dispuesto a pagar el resto de los anunciantes por alcanzarla.",
+      "De ahí sale tu costo. No de tu puja, que es apenas uno de los ingredientes. Por eso dos cuentas con la misma segmentación y el mismo presupuesto pueden tener costos por resultado muy distintos: lo que las separa es qué tan bien predice el sistema que su anuncio va a funcionar."
+    ]
+  },
+  {
+    "id": "aprendizaje",
+    "num": "03",
+    "grupo": "sistema",
+    "titulo": "Cómo aprende de tu negocio",
+    "tituloCorto": "El aprendizaje",
+    "cuerpo": [
+      "Cada campaña arranca con un periodo en el que el sistema todavía no tiene suficientes datos tuyos para predecir bien. Necesita acumular un volumen mínimo de conversiones en una ventana corta para que la entrega se estabilice. Debajo de ese umbral, los costos son más altos y más volátiles.",
+      "Dos cosas se derivan de esto y casi nadie las respeta. Fragmentar la inversión en muchos conjuntos parte el aprendizaje en pedazos que nunca maduran. Y cada cambio de fondo —presupuesto, segmentación, estrategia de puja— reinicia el proceso. Optimizar moviendo cosas todos los días es, literalmente, impedir que la campaña aprenda."
+    ]
+  },
+  {
+    "id": "meta",
+    "num": "04",
+    "grupo": "nosotros",
+    "titulo": "Qué le enseñamos a perseguir",
+    "tituloCorto": "La meta",
+    "cuerpo": [
+      "El sistema se vuelve muy bueno en conseguir exactamente lo que le pidas. Ese es el problema. Si le pides contactos, te va a traer contactos, incluidos los que nunca iban a comprar. La definición del evento a optimizar es la decisión más determinante de toda la campaña y suele tomarse en treinta segundos.",
+      "Nuestro trabajo empieza ahí: entender qué operación tuya sí vale, y configurar la campaña para que sea eso lo que el modelo aprenda a buscar. Cuando el negocio lo permite conectar, regresamos a la plataforma cuáles prospectos se convirtieron en clientes, para que el sistema deje de optimizar hacia el contacto y empiece a optimizar hacia la venta."
+    ]
+  },
+  {
+    "id": "senal",
+    "num": "05",
+    "grupo": "nosotros",
+    "titulo": "Con qué datos lo alimentamos",
+    "tituloCorto": "La señal",
+    "cuerpo": [
+      "El modelo solo puede aprender de los eventos que recibe y logra atribuir a una persona. El pixel del navegador solo ya no basta: bloqueadores, restricciones de iOS y limitaciones del rastreo entre sitios se comen una parte importante de la señal, y lo que se pierde no se recupera después.",
+      "Por eso configuramos y verificamos el envío desde servidor con la API de Conversiones, revisamos la calidad de coincidencia de los eventos y mandamos el valor de cada conversión, no solo el conteo. Un modelo que sabe cuánto dejó cada venta puja distinto que uno que solo sabe que hubo una."
+    ]
+  },
+  {
+    "id": "creativo",
+    "num": "06",
+    "grupo": "nosotros",
+    "titulo": "Con qué creativo lo dejamos trabajar",
+    "tituloCorto": "El creativo",
+    "cuerpo": [
+      "Si la relevancia se infiere de la pieza, entonces la pieza es la segmentación. Y cada concepto verdaderamente distinto compite por separado: tiene su propia oportunidad de ser recuperado y emparejado con un grupo de personas diferente.",
+      "De ahí la diferencia entre producir diez anuncios y producir diez versiones del mismo anuncio. Lo segundo le da al sistema una sola carta. Por eso trabajamos ángulos distintos, en los formatos que pide cada ubicación, y rotamos cuando la pieza empieza a desgastarse, no cuando el costo ya subió."
+    ]
+  },
+  {
+    "id": "disciplina",
+    "num": "07",
+    "grupo": "nosotros",
+    "titulo": "Con qué disciplina lo operamos",
+    "tituloCorto": "La disciplina",
+    "cuerpo": [
+      "La tentación es mover la campaña todos los días para demostrar que se está trabajando. Es lo peor que se le puede hacer a un sistema que necesita estabilidad para aprender.",
+      "Nuestra operación es al revés: consolidar la estructura en vez de fragmentarla, dimensionar el presupuesto para que el aprendizaje alcance a completarse, y dejar la campaña quieta mientras está aprendiendo. Los cambios se hacen con criterio y en ventanas definidas, no por ansiedad. Lo que sí se mueve todo el tiempo es el creativo, que es el único insumo que el sistema agradece que renueves."
+    ]
+  }
+]

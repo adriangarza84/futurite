@@ -1,62 +1,86 @@
 ---
-interface Punto {
-  titulo: string;
-  texto: string;
-}
+import puntos from '../../data/redes/ia.json';
+
 interface Props {
+  kicker: string;
   titulo: string;
   entrada: string;
-  si: Punto[];
-  no: Punto[];
   cierre: string;
 }
+const { kicker, titulo, entrada, cierre } = Astro.props;
 
-const { titulo, entrada, si, no, cierre } = Astro.props;
+const grupos = {
+  sistema: 'Cómo funciona el sistema',
+  nosotros: 'Dónde entramos nosotros',
+};
+
+// El encabezado de grupo se imprime antes del primer punto de cada grupo.
+const primeroDelGrupo = (i: number) => i === 0 || puntos[i - 1].grupo !== puntos[i].grupo;
 ---
 
-{/* Tratamiento propio: es el bloque que diferencia la página. Banda oscura,
-    dos columnas con el MISMO peso visual. "Dónde no" no es letra chica: si
-    pesara menos, el argumento de honestidad se desarma. */}
-<section class="seccion ia">
-  <div class="contenedor">
-    <div class="ia__intro">
-      <span class="kicker">Inteligencia artificial</span>
-      <h2>{titulo}</h2>
-      <div class="linea"></div>
-      <p class="entradilla">{entrada}</p>
-    </div>
+{/* Secuencia de siete puntos con patrón de pestañas ARIA: índice vertical en
+    escritorio, chips con scroll horizontal en móvil. Nunca acordeón.
 
-    <div class="ia__columnas">
-      <div class="ia__col">
-        <h3 class="ia__tit">
-          <span class="ia__marca ia__marca--si" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-          </span>
-          Dónde sí
-        </h3>
-        <ul class="ia__lista">
-          {si.map((p) => (
-            <li>
-              <strong>{p.titulo}</strong> {p.texto}
-            </li>
-          ))}
-        </ul>
+    Los siete paneles están en el HTML desde la carga. Los inactivos llevan el
+    atributo `hidden`, pero el CSS base lo anula: sin JavaScript la sección se
+    ve completa y apilada. El script agrega `ia--interactivo` y solo entonces
+    aparece el índice y se ocultan los paneles. */}
+<section id="inteligencia-artificial" class="seccion ia">
+  <div class="contenedor ia__contenedor">
+    <p class="kicker ia__kicker">{kicker}</p>
+    <h2 class="ia__titulo">{titulo}</h2>
+    <span class="linea ia__regla" aria-hidden="true"></span>
+    <p class="entradilla ia__entrada">{entrada}</p>
+
+    <div class="ia__cuerpo">
+      <div
+        class="ia__indice"
+        role="tablist"
+        aria-label="Cómo opera la IA en las campañas"
+        aria-orientation="vertical"
+      >
+        {puntos.map((p, i) => (
+          <>
+            {primeroDelGrupo(i) && (
+              <p class={`ia__grupo ia__grupo--${p.grupo}`} aria-hidden="true">
+                {grupos[p.grupo as keyof typeof grupos]}
+              </p>
+            )}
+            <button
+              type="button"
+              role="tab"
+              id={`ia-tab-${i + 1}`}
+              aria-controls={`ia-panel-${i + 1}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              class="ia__item"
+            >
+              <span class="ia__num" aria-hidden="true">{p.num}</span>
+              {/* Dos etiquetas: la larga para el índice de escritorio y la
+                  corta para el chip. La que no toca va en display:none, que
+                  también la saca del nombre accesible del botón. */}
+              <span class="ia__label">{p.titulo}</span>
+              <span class="ia__label-corto">{p.tituloCorto}</span>
+            </button>
+          </>
+        ))}
       </div>
 
-      <div class="ia__col">
-        <h3 class="ia__tit">
-          <span class="ia__marca ia__marca--no" aria-hidden="true">
-            <svg viewBox="0 0 24 24" focusable="false"><path d="M7 7l10 10M17 7L7 17" /></svg>
-          </span>
-          Dónde no
-        </h3>
-        <ul class="ia__lista">
-          {no.map((p) => (
-            <li>
-              <strong>{p.titulo}</strong> {p.texto}
-            </li>
-          ))}
-        </ul>
+      <div class="ia__paneles">
+        {puntos.map((p, i) => (
+          <div
+            role="tabpanel"
+            id={`ia-panel-${i + 1}`}
+            aria-labelledby={`ia-tab-${i + 1}`}
+            tabindex="0"
+            class="ia__panel"
+            hidden={i !== 0}
+          >
+            <span class="ia__panel-num" aria-hidden="true">{p.num}</span>
+            <h3>{p.titulo}</h3>
+            {p.cuerpo.map((parrafo) => <p>{parrafo}</p>)}
+          </div>
+        ))}
       </div>
     </div>
 
@@ -64,12 +88,78 @@ const { titulo, entrada, si, no, cierre } = Astro.props;
   </div>
 </section>
 
+<script is:inline>
+  (function () {
+    var seccion = document.getElementById('inteligencia-artificial');
+    if (!seccion) return;
+    var tabs = Array.prototype.slice.call(seccion.querySelectorAll('[role="tab"]'));
+    var paneles = Array.prototype.slice.call(seccion.querySelectorAll('[role="tabpanel"]'));
+    if (tabs.length === 0 || tabs.length !== paneles.length) return;
+
+    // A partir de aquí la sección es interactiva: aparece el índice y los
+    // paneles inactivos se ocultan de verdad. Si este script no corre, el CSS
+    // deja los siete paneles visibles y apilados.
+    seccion.classList.add('ia--interactivo');
+
+    var movil = window.matchMedia('(max-width: 1023px)');
+
+    function activar(i, mover) {
+      tabs.forEach(function (tab, j) {
+        var activo = j === i;
+        tab.setAttribute('aria-selected', activo ? 'true' : 'false');
+        tab.tabIndex = activo ? 0 : -1;
+        paneles[j].hidden = !activo;
+      });
+      if (mover) {
+        tabs[i].focus();
+        // En la fila de chips, el activo se centra para que siempre asome el
+        // siguiente y se note que hay más.
+        if (movil.matches && tabs[i].scrollIntoView) {
+          tabs[i].scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    }
+
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { activar(i, true); });
+      tab.addEventListener('keydown', function (e) {
+        var destino = -1;
+        // Las cuatro flechas funcionan en las dos vistas: el índice es
+        // vertical y los chips horizontales, y así ninguna combinación falla.
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') destino = (i + 1) % tabs.length;
+        else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') destino = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === 'Home') destino = 0;
+        else if (e.key === 'End') destino = tabs.length - 1;
+        if (destino < 0) return;
+        e.preventDefault();
+        activar(destino, true);
+      });
+    });
+  })();
+</script>
+
 <style>
   .ia {
-    background: var(--grad-oscuro);
-    color: rgba(255, 255, 255, .88);
+    /* Los valores relativos son los del documento; los colores base son los de
+       la página, no los muestreados de la captura: el degradado del hero y el
+       del cierre son éstos y la sección tiene que empatar con ellos. */
+    --ia-bg-inicio: var(--color-marca);
+    --ia-bg-fin: var(--color-marca-oscuro);
+    --ia-acento: var(--color-acento);
+    --ia-texto: #ffffff;
+    --ia-texto-suave: rgba(255, 255, 255, .78);
+    --ia-inactivo: rgba(255, 255, 255, .62);
+    --ia-item-activo: rgba(255, 255, 255, .06);
+    --ia-borde: rgba(255, 255, 255, .18);
+    /* El documento pedía .45, que sobre este fondo da 3.66:1 y no llega al AA
+       que exige su propio checklist. A .55 da 4.69:1 y sigue leyéndose por
+       debajo de los títulos del índice, que van a .62. */
+    --ia-grupo: rgba(255, 255, 255, .55);
+
     position: relative;
     overflow: hidden;
+    background: linear-gradient(115deg, var(--ia-bg-inicio) 50%, var(--ia-bg-fin) 100%);
+    color: var(--ia-texto-suave);
   }
   .ia::before {
     content: '';
@@ -83,78 +173,191 @@ const { titulo, entrada, si, no, cierre } = Astro.props;
     -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 72%);
     pointer-events: none;
   }
-  .ia > .contenedor { position: relative; z-index: 1; }
+  .ia__contenedor { position: relative; z-index: 1; }
 
-  .ia h2, .ia h3 { color: #fff; }
-  .ia .kicker { color: var(--color-acento); }
-  .ia__intro { max-width: 760px; margin-bottom: 44px; }
-  .ia__intro .entradilla { color: rgba(255, 255, 255, .82); }
+  .ia__kicker { color: var(--ia-acento); }
+  .ia__titulo { color: var(--ia-texto); max-width: 22ch; }
+  .ia__regla { display: block; }
+  .ia__entrada { color: var(--ia-texto-suave); max-width: 68ch; margin-bottom: 44px; }
 
-  .ia__columnas {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 26px;
+  /* --- Índice -------------------------------------------------------- */
+
+  /* Sin JavaScript no hay nada que pilotear: el índice no aparece. */
+  .ia__indice { display: none; }
+  .ia--interactivo .ia__indice { display: block; }
+
+  .ia__grupo {
+    margin: 0 0 12px;
+    font-size: 12.5px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--ia-grupo);
   }
-  /* Misma superficie, mismo borde, mismo padding en las dos columnas. */
-  .ia__col {
-    background: rgba(255, 255, 255, .06);
-    border: 2px solid rgba(255, 255, 255, .16);
-    border-radius: var(--radio-card);
-    padding: 32px 30px;
-  }
-  .ia__tit {
+  .ia__grupo--nosotros { margin-top: 26px; }
+
+  .ia__item {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 24px;
-    margin-bottom: 22px;
+    align-items: baseline;
+    gap: 14px;
+    width: 100%;
+    padding: 13px 16px;
+    margin: 0 0 2px;
+    border: none;
+    border-left: 3px solid transparent;
+    border-radius: 0 10px 10px 0;
+    background: transparent;
+    color: var(--ia-inactivo);
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: left;
+    cursor: pointer;
+    transition: color .15s ease, background .15s ease, border-color .15s ease;
   }
-  .ia__marca {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    flex: 0 0 38px;
+  .ia__item:hover { color: var(--ia-texto); background: rgba(255, 255, 255, .04); }
+  .ia__item[aria-selected='true'] {
+    color: var(--ia-texto);
+    background: var(--ia-item-activo);
+    border-left-color: var(--ia-acento);
   }
-  .ia__marca svg {
-    width: 22px;
-    height: 22px;
-    fill: none;
-    stroke-width: 2.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .ia__marca--si { background: var(--color-acento); }
-  .ia__marca--si svg { stroke: var(--color-marca); }
-  .ia__marca--no { background: rgba(255, 255, 255, .92); }
-  .ia__marca--no svg { stroke: var(--color-marca); }
 
-  .ia__lista { list-style: none; margin: 0; padding: 0; }
-  .ia__lista li {
-    padding: 0 0 16px 0;
-    margin-bottom: 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, .12);
-    color: rgba(255, 255, 255, .84);
+  .ia__num {
+    flex: 0 0 auto;
+    font-size: 13px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ia-inactivo);
   }
-  .ia__lista li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-  .ia__lista strong { color: #fff; }
+  .ia__item[aria-selected='true'] .ia__num { color: var(--ia-acento); }
+
+  .ia__label-corto { display: none; }
+
+  /* --- Paneles -------------------------------------------------------- */
+
+  /* Base: los siete visibles y apilados. El atributo hidden se anula a
+     propósito; solo cuenta cuando el script encendió la interacción. */
+  .ia__panel[hidden] { display: block; }
+
+  /* Con interacción, los siete paneles ocupan la misma celda de la retícula y
+     los inactivos se apagan con visibility, no con display. Así la caja mide
+     siempre lo que el panel más largo y el layout no brinca al cambiar de
+     punto — sin depender de una altura calculada a mano, que se desajusta en
+     cuanto cambia el copy o la tipografía. visibility:hidden también los saca
+     del foco y del árbol de accesibilidad: solo el activo se anuncia. */
+  .ia--interactivo .ia__paneles { display: grid; }
+  .ia--interactivo .ia__panel { grid-area: 1 / 1; }
+  .ia--interactivo .ia__panel[hidden] { display: block; visibility: hidden; }
+
+  .ia__panel { padding: 0 0 26px; }
+  .ia--interactivo .ia__panel { padding: 0; animation: ia-aparece .12s ease-out; }
+  .ia__panel:focus-visible { outline: 3px solid var(--ia-acento); outline-offset: 8px; border-radius: 6px; }
+
+  @keyframes ia-aparece {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .ia__panel-num {
+    display: block;
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ia-acento);
+    margin-bottom: 10px;
+  }
+  .ia__panel h3 { color: var(--ia-texto); font-size: 25px; margin-bottom: 14px; }
+  .ia__panel p { color: var(--ia-texto-suave); max-width: 68ch; }
+  .ia__panel p:last-child { margin-bottom: 0; }
 
   .ia__cierre {
-    margin: 40px auto 0;
-    max-width: 68ch;
+    margin: 44px 0 0;
+    padding-top: 30px;
+    border-top: 1px solid var(--ia-borde);
     font-size: 19px;
     font-weight: 700;
-    color: #fff;
-    text-align: center;
+    color: var(--ia-texto);
+    max-width: 68ch;
+  }
+
+  /* --- Escritorio ------------------------------------------------------ */
+
+  @media (min-width: 1024px) {
+    .ia--interactivo .ia__cuerpo {
+      display: grid;
+      grid-template-columns: 38% 62%;
+      gap: 48px;
+      align-items: start;
+    }
+    /* Piso de altura, además del apilado en retícula. Medido con el copy
+       montado, el panel más largo en escritorio es el 04 (371 px), no el 06
+       como suponía el documento. */
+    .ia--interactivo .ia__paneles { min-height: 380px; }
+  }
+
+  /* --- Chips: móvil y tableta ------------------------------------------ */
+
+  @media (max-width: 1023px) {
+    .ia--interactivo .ia__indice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 -20px 28px;
+      padding: 4px 20px 10px;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .ia--interactivo .ia__indice::-webkit-scrollbar { display: none; }
+
+    .ia--interactivo .ia__item {
+      width: auto;
+      flex: 0 0 auto;
+      scroll-snap-align: center;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      margin: 0;
+      border: 2px solid var(--ia-borde);
+      border-radius: 999px;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+    .ia--interactivo .ia__item[aria-selected='true'] {
+      background: var(--ia-acento);
+      border-color: var(--ia-acento);
+      color: var(--color-marca);
+    }
+    .ia--interactivo .ia__item[aria-selected='true'] .ia__num { color: var(--color-marca); }
+
+    .ia--interactivo .ia__label { display: none; }
+    .ia--interactivo .ia__label-corto { display: inline; }
+
+    /* Los encabezados de grupo no caben en la fila de chips. El salto de
+       argumento se marca con una línea delgada entre el 03 y el 04. */
+    .ia--interactivo .ia__grupo { display: none; }
+    .ia--interactivo .ia__grupo--nosotros {
+      display: block;
+      flex: 0 0 1px;
+      width: 1px;
+      height: 26px;
+      margin: 0 6px;
+      padding: 0;
+      background: var(--ia-borde);
+      font-size: 0;
+      overflow: hidden;
+    }
+
+    .ia--interactivo .ia__paneles { min-height: 380px; }
+    .ia__panel-num { font-size: 46px; }
+    .ia__panel h3 { font-size: 22px; }
   }
 
   @media (max-width: 767px) {
-    /* Se apilan con "Dónde sí" arriba, que ya es el orden del DOM. */
-    .ia__columnas { grid-template-columns: 1fr; gap: 18px; }
-    .ia__col { padding: 26px 22px; }
-    .ia__tit { font-size: 21px; }
-    .ia__cierre { font-size: 17px; text-align: left; }
+    .ia--interactivo .ia__paneles { min-height: 420px; }
+    .ia__titulo { max-width: none; }
+    .ia__cierre { font-size: 17px; }
   }
 </style>

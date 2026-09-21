@@ -66,16 +66,17 @@ src/
     Hero.astro                      video de fondo + póster
     BloqueArgumento.astro           reutilizable, 3 usos (secciones 3, 4 y 5)
     Figura.astro                    ilustraciones SVG de los bloques
-    IABloque.astro                  dos columnas, tratamiento propio
-    Plataformas.astro               seis filas, lee plataformas.json
-    LogoPlataforma.astro            glifos monocromáticos
+    IABloque.astro                  secuencia de 7 puntos, lee ia.json
+    Plataformas.astro               cinco filas, lee plataformas.json
+    LogoPlataforma.astro            logotipos oficiales, glifo de respaldo
     Proceso.astro                   cuatro pasos numerados
     Clientes.astro                  barra de logos, lee clientes.json
     FaqAccordion.astro              <details>/<summary>, lee faqs.json
     CierreCta.astro                 CTA final + cuatro enlaces cruzados
-  data/redes/plataformas.json       las seis plataformas
+  data/redes/ia.json                los siete puntos del bloque de IA
+  data/redes/plataformas.json       las cinco plataformas
   data/redes/clientes.json          los nueve logos de clientes
-  data/redes/faqs.json              las nueve preguntas
+  data/redes/faqs.json              las ocho preguntas
   lib/jsonld.js                     FAQPage y Service desde los mismos datos
   pages/agencia-de-redes-sociales.astro
   styles/redes.css                  tokens y base
@@ -154,6 +155,34 @@ del footer a la cuenta de X de Futurité se queda, que es otra cosa.
 cae al glifo propio cuando no. Los logotipos van sin caja de color detrás; el
 glifo sí la lleva, para que se lea como icono y no como logo a medias.
 
+## Bloque de IA
+
+Secuencia de siete puntos con patrón de pestañas ARIA: índice vertical arriba
+de 1024 px, chips con scroll horizontal abajo. Nunca acordeón. El contenido
+vive en `src/data/redes/ia.json`.
+
+Tres cosas que se apartaron del documento de especificación, y por qué:
+
+- **Los tokens de color.** El documento los daba muestreados de una captura
+  (`#153959`, `#234563`, `#5DCAFA`) y no coinciden con los de la página. Se
+  usan los reales —`#003a5c`, `#011743`, `#00cdff`— para que la sección empate
+  con el hero y el cierre. Las opacidades del documento (.78, .62, .18, .06) sí
+  se respetan: son las que definen la jerarquía del índice.
+- **`--ia-grupo` a .55 y no a .45.** A .45 el encabezado de grupo da 3.66:1
+  sobre este fondo y no llega al AA que pide el propio checklist. A .55 da
+  4.69:1 y sigue leyéndose por debajo de los títulos del índice, que van a .62.
+- **La altura del panel.** En vez de confiar solo en un `min-height` calculado
+  a mano, los siete paneles ocupan la misma celda de una retícula y los
+  inactivos se apagan con `visibility`, no con `display`. La caja mide siempre
+  lo que el panel más largo y no brinca aunque cambie el copy o la tipografía.
+  El `min-height` del documento se queda como piso. Dato para el acta: con el
+  copy montado el panel más largo en escritorio es el **04** (371 px), no el 06.
+
+Medido en el navegador: sin salto de altura en ninguna de las siete vistas,
+navegación con las cuatro flechas más Home y End, un solo tab en el orden de
+tabulación, chip activo centrado con el siguiente asomando, y con
+`ia--interactivo` desactivado los siete paneles quedan visibles y apilados.
+
 ## Fondo del cierre
 
 La banda del CTA final lleva una textura de iconos sociales
@@ -212,8 +241,9 @@ acordeón es nativo, el click es el único gesto que hay que escuchar.
 - Build limpio y cero JavaScript de render (el único script propio decide si
   descarga el video del hero).
 - Un solo `<h1>`; los once H2 en orden; las preguntas del FAQ en H3.
-- `FAQPage` (9 preguntas) y `Service` en el `<head>`, generados desde los JSON.
-- Las nueve respuestas están en el HTML inicial con el acordeón cerrado.
+- `FAQPage` (8 preguntas) y `Service` en el `<head>`, generados desde los JSON.
+- Las ocho respuestas están en el HTML inicial con el acordeón cerrado, y los
+  siete paneles del bloque de IA también.
 - Canonical, robots y OG puestos; `meta-keywords` no existe.
 - Los cuatro enlaces cruzados presentes en el cuerpo.
 - Sin "Twitter" visible (solo la meta `twitter:card`, que es el nombre estándar
