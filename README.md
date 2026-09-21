@@ -73,6 +73,7 @@ src/
     Clientes.astro                  barra de logos, lee clientes.json
     FaqAccordion.astro              <details>/<summary>, lee faqs.json
     CierreCta.astro                 CTA final + cuatro enlaces cruzados
+  data/redes/intro.json             copy de "¿Qué hace una agencia…?"
   data/redes/ia.json                los siete puntos del bloque de IA
   data/redes/plataformas.json       las cinco plataformas
   data/redes/clientes.json          los nueve logos de clientes

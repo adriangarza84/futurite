@@ -9,6 +9,7 @@ import Clientes from '../components/redes/Clientes.astro';
 import FaqAccordion from '../components/redes/FaqAccordion.astro';
 import CierreCta from '../components/redes/CierreCta.astro';
 import { faqPageJsonLd, serviceJsonLd, URL_PAGINA } from '../lib/jsonld.js';
+import intro from '../data/redes/intro.json';
 
 const CONTACTO = 'https://futurite.com/contacto';
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -138,24 +139,15 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
     ]}
   />
 
-  <!-- 2 · Qué hace una agencia de redes sociales -->
+  {/* 2 · Qué hace una agencia de redes sociales de performance.
+      El copy sale de data/redes/intro.json, no va incrustado aquí. El tercer
+      párrafo es el puente hacia el bloque de IA: va suelto, no pegado al
+      segundo. */}
   <section class="seccion">
     <div class="contenedor intro">
-      <h2>¿Qué hace una agencia de redes sociales?</h2>
+      <h2>{intro.titulo}</h2>
       <div class="linea"></div>
-      <p>
-        Una agencia de redes sociales se encarga de dos cosas que suelen venderse juntas pero
-        funcionan distinto: el contenido que publicas y la publicidad que pagas. El contenido
-        construye la marca y sostiene la conversación; la pauta compra alcance y genera prospectos
-        desde el primer día.
-      </p>
-      <p>
-        Lo que cambió en los últimos años es dónde está el trabajo. Antes la ventaja estaba en
-        segmentar bien: elegir edades, intereses y ubicaciones. Hoy las plataformas deciden eso
-        solas con sus propios sistemas automatizados. Lo que sí sigue en manos de la agencia es la
-        calidad del dato que alimenta a esos sistemas y la cantidad y calidad de creativo que les
-        das para trabajar.
-      </p>
+      {intro.parrafos.map((parrafo) => <p>{parrafo}</p>)}
     </div>
   </section>
 
