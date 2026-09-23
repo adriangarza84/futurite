@@ -1,0 +1,88 @@
+---
+interface Props {
+  kicker: string;
+  titulo: string;
+  entrada: string;
+  /* Tres puntos, no siete. El bloque de /agencia-de-redes-sociales usa un
+     patrón de pestañas ARIA porque son siete items y el índice ayuda a
+     orientarse; con tres, la navegación no aporta nada y mete JavaScript en
+     una página que hoy no tiene. Mismo lenguaje visual, sin el mecanismo. */
+  puntos: { numero: string; titulo: string; texto: string }[];
+}
+const { kicker, titulo, entrada, puntos } = Astro.props;
+---
+
+<section class="seccion seccion--oscura ia">
+  <div class="contenedor">
+    <div class="ia__intro">
+      <span class="kicker">{kicker}</span>
+      <h2>{titulo}</h2>
+      <div class="linea"></div>
+      <p class="entradilla">{entrada}</p>
+    </div>
+
+    <ul class="ia__tarjetas">
+      {puntos.map((p) => (
+        <li class="ia__tarjeta">
+          <span class="ia__numero" aria-hidden="true">{p.numero}</span>
+          <h3 class="ia__titulo">{p.titulo}</h3>
+          <p class="ia__texto">{p.texto}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ia__intro { margin-bottom: 42px; max-width: 78ch; }
+
+  .ia__tarjetas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+    /* Las tres tarjetas se estiran a la más alta: el copy de la 01 es mucho
+       más largo que el de la 03 y en cajas de distinta altura se ve accidental. */
+    align-items: stretch;
+  }
+  .ia__tarjeta {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, .06);
+    border: 2px solid rgba(255, 255, 255, .18);
+    border-radius: var(--radio-card);
+    padding: 30px 28px 32px;
+  }
+  /* Mismo tratamiento que los números 01–04 del bloque de proceso, con una
+     diferencia medida: a .55 el cian sobre esta tarjeta da 2.74:1 y no llega
+     ni al 3:1 que pide el texto grande. A .7 da 3.49:1 en el extremo más
+     claro del degradado y sigue leyéndose por debajo del título. */
+  .ia__numero {
+    display: block;
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-acento);
+    opacity: .7;
+    margin-bottom: 14px;
+  }
+  .ia__titulo {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .ia__texto {
+    margin: 0;
+    font-size: 16.5px;
+    line-height: 1.6;
+    /* .78 sobre este fondo da 8.9:1 contra el azul de marca: por arriba del
+       4.5:1 del brief y por debajo del blanco puro del título. */
+    color: rgba(255, 255, 255, .78);
+  }
+
+  @media (max-width: 991px) {
+    .ia__tarjetas { grid-template-columns: 1fr; gap: 20px; }
+    .ia__numero { font-size: 42px; margin-bottom: 10px; }
+  }
+</style>

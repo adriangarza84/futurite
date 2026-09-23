@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/comunes/Hero.astro';
+import BloqueArgumento from '../components/comunes/BloqueArgumento.astro';
+import Clientes from '../components/comunes/Clientes.astro';
+import Credenciales from '../components/comunes/Credenciales.astro';
+import FaqAccordion from '../components/comunes/FaqAccordion.astro';
+import CierreCta from '../components/comunes/CierreCta.astro';
+import FranjaDatos from '../components/google-ads/FranjaDatos.astro';
+import IATarjetas from '../components/google-ads/IATarjetas.astro';
+import CasosMetricas from '../components/google-ads/CasosMetricas.astro';
+import { faqPageJsonLd, serviceJsonLd, breadcrumbJsonLd, SITIO } from '../lib/jsonld.js';
+import faqs from '../data/google-ads/faqs.json';
+import stats from '../data/google-ads/stats.json';
+import ia from '../data/google-ads/ia.json';
+import portafolio from '../data/google-ads/casos.json';
+
+const URL_PAGINA = `${SITIO}/google-ads`;
+const CONTACTO = 'https://futurite.com/contacto';
+
+// --- Copy aprobado (documento del 2026-09-22). No editar sin avisar a marketing. ---
+
+// El CTA de los bloques de argumento es el mismo texto y el mismo destino en
+// toda la página, y va en estilo secundario: el único botón primario vive en el
+// hero y en el cierre. La versión vieja repetía tres botones primarios
+// compitiendo entre sí.
+const CTA_BLOQUE = 'Solicitar diagnóstico de mi cuenta';
+
+const bloques = [
+  {
+    kicker: 'La medición antes que la pauta',
+    titulo: 'Primero la medición, después la pauta',
+    entrada: 'Antes de encender una sola campaña revisamos cómo está midiendo tu cuenta. Es el paso que más agencias se saltan y el que más dinero cuesta, porque Google optimiza hacia lo que le dices que es una conversión. Si le dijiste que un clic en WhatsApp vale lo mismo que una compra, va a traerte clics en WhatsApp.',
+    bullets: [
+      'Configuramos las conversiones en Google Ads y GA4, y verificamos que disparen bien',
+      'Activamos conversiones mejoradas y valores por conversión, para que el sistema puje por lo que te deja margen',
+      'Separamos marca de no-marca, porque atribuirse las ventas de quien ya te buscaba es la forma más vieja de inflar un reporte',
+    ],
+    cta: { texto: CTA_BLOQUE, href: CONTACTO, posicion: 'bloque-medicion' },
+    figura: 'medicion',
+    ladoImagen: 'derecha',
+    fondo: 'blanco',
+  },
+  {
+    kicker: 'Estructura y señales',
+    titulo: 'El algoritmo ya puja. Nuestro trabajo es alimentarlo bien.',
+    entrada: 'Con Performance Max, Smart Bidding y concordancia amplia, ajustar pujas manualmente dejó de ser el trabajo. Hoy el resultado depende de qué información recibe el sistema.',
+    bullets: [
+      'Definimos qué públicos alimentan al algoritmo y qué activos entran en cada grupo',
+      'Depuramos términos de búsqueda y listas de exclusión para cortar el tráfico que nunca va a comprar',
+      'Cuidamos el feed de productos, que en Shopping y Performance Max pesa más que cualquier ajuste de puja',
+    ],
+    cta: { texto: CTA_BLOQUE, href: CONTACTO, posicion: 'bloque-senales' },
+    figura: 'senales',
+    ladoImagen: 'izquierda',
+    fondo: 'alt',
+  },
+  {
+    kicker: 'Decisiones, no reportes',
+    titulo: 'Cada mes entregas decisiones, no un PDF',
+    entrada: 'El reporte mensual contesta tres cosas: qué se invirtió, qué generó y qué vamos a cambiar.',
+    bullets: [
+      'Costo por prospecto y por venta, desglosado por campaña y por canal',
+      'Qué campañas escalan, cuáles se pausan y con qué criterio',
+      'Qué públicos y términos nuevos vale la pena probar el mes siguiente',
+      'El desglose por edad, género, ciudad y horario está disponible cuando lo necesitas, pero no es el entregable',
+    ],
+    cta: { texto: CTA_BLOQUE, href: CONTACTO, posicion: 'bloque-decisiones' },
+    figura: 'reporte',
+    ladoImagen: 'derecha',
+    fondo: 'blanco',
+  },
+];
+
+// Los cuatro enlaces cruzados: los otros servicios, nunca el de esta página.
+const cruzados = [
+  { texto: 'posicionamiento SEO orgánico', href: 'https://futurite.com/agencia-seo', id: 'seo' },
+  { texto: 'campañas en redes sociales', href: 'https://futurite.com/agencia-de-redes-sociales', id: 'redes-sociales' },
+  { texto: 'tiendas en línea', href: 'https://futurite.com/comercio-electronico', id: 'comercio-electronico' },
+  { texto: 'campañas para consultorios y clínicas', href: 'https://futurite.com/marketing-medico', id: 'marketing-medico' },
+];
+
+const jsonLd = [
+  faqPageJsonLd(faqs),
+  serviceJsonLd({
+    nombre: 'Agencia de Google Ads',
+    tipo: 'Publicidad en buscadores',
+    url: URL_PAGINA,
+  }),
+  breadcrumbJsonLd('Google Ads', URL_PAGINA),
+];
+---
+
+<BaseLayout
+  title="Agencia de Google Ads en México | Futurité"
+  description="Agencia de Google Ads para Search, Performance Max, Demand Gen y YouTube. Medición verificada en GA4. Reportamos costo por prospecto y por venta."
+  canonical={URL_PAGINA}
+  ogImage={`${SITIO}/assets/img/og/og-google-ads.jpg`}
+  jsonLd={jsonLd}
+>
+  <!-- 1 · Hero -->
+  <Hero
+    antetitulo="Campañas que se miden en ventas, no en clics"
+    titulo="Google Ads que responde por costo de adquisición, no por clics"
+    bajada="Operamos Search, Performance Max, Demand Gen y YouTube para empresas en todo México. Antes de invertir tu primer peso, verificamos que la medición esté bien puesta: si las conversiones están mal configuradas, la automatización optimiza hacia el resultado equivocado."
+    video="hero-ads.mp4"
+    poster="hero-ads.jpg"
+    botones={[
+      { texto: 'Solicitar diagnóstico de mi cuenta', href: CONTACTO, variante: 'primario', gtm: 'hero-primario' },
+      { texto: 'Ver cómo trabajamos', href: '#como-trabajamos', variante: 'fantasma', gtm: 'hero-secundario' },
+    ]}
+  />
+
+  <!-- 2 · Franja de credibilidad -->
+  <FranjaDatos datos={stats} />
+
+  {/* 3 · Cómo trabajamos. La intro no lleva H2 propio: los tres bloques ya
+      traen el suyo y un cuarto encabezado aquí solo agregaría ruido a la
+      jerarquía. El id vive en la intro para que el salto del hero caiga
+      arriba del primer bloque y no a media sección. */}
+  <section class="seccion seccion--intro" id="como-trabajamos">
+    <div class="contenedor">
+      <span class="kicker">Cómo trabajamos</span>
+      <p class="entradilla entradilla--grande">
+        Tu agencia reporta conversiones. Tu contador reporta ventas. Cuando esos dos números no
+        coinciden, el problema casi nunca está en la puja.
+      </p>
+    </div>
+  </section>
+
+  {bloques.map((b) => (
+    <BloqueArgumento
+      kicker={b.kicker}
+      titulo={b.titulo}
+      entrada={b.entrada}
+      bullets={b.bullets}
+      cta={b.cta}
+      figura={b.figura}
+      ladoImagen={b.ladoImagen}
+      fondo={b.fondo}
+    />
+  ))}
+
+  <!-- 4 · IA y diferenciador técnico -->
+  <IATarjetas
+    kicker="Inteligencia artificial"
+    titulo="IA aplicada donde sí mueve el costo de adquisición"
+    entrada="Todas las agencias dicen que usan inteligencia artificial. La pregunta es para qué. Estas son las tres cosas que hacemos y que siguen siendo excepción en el mercado mexicano."
+    puntos={ia}
+  />
+
+  <!-- 5 · Portafolio con métricas -->
+  <CasosMetricas
+    kicker="Resultados"
+    titulo="Resultados que puedes verificar"
+    casos={portafolio.casos}
+    anonimo={portafolio.anonimo}
+    ejemplo={portafolio.ejemplo}
+    cierre="Administramos más de 60 millones de pesos de inversión publicitaria al año, repartidos en más de 100 cuentas activas. Cada caso se mide contra el costo por adquisición con el que llegó, no contra un promedio de la industria."
+  />
+
+  <!-- 5 bis · Clientes y credenciales -->
+  <Clientes titulo="Clientes que nos respaldan" />
+
+  <Credenciales
+    destacado="google"
+    parrafos={[
+      'Futurité es <strong>Google Partner Premier</strong>, la distinción que Google otorga al 3% superior de las agencias de cada país, y también <strong>Meta Business Partner</strong>. Ambos programas exigen certificaciones vigentes del equipo y desempeño sostenido de las cuentas que gestiona la agencia.',
+      'Más de <strong>17 años</strong> operando campañas en México, en más de <strong>40 giros</strong> distintos, para marcas de Monterrey, Ciudad de México, Guadalajara, Querétaro, Toluca y Cancún.',
+    ]}
+  />
+
+  <!-- 6 · Preguntas frecuentes -->
+  <FaqAccordion
+    titulo="Lo que preguntan quienes ya tuvieron una agencia que no funcionó"
+    faqs={faqs}
+  />
+
+  <!-- 7 y 8 · Cierre y enlaces cruzados -->
+  <CierreCta
+    titulo="Dinos qué vendes y con cuánto cuentas"
+    parrafos={[
+      'Te decimos si Google Ads es el canal correcto antes de cobrarte por averiguarlo. Si no hay demanda que capturar, si el margen no aguanta el costo por clic de tu sector o si el negocio todavía no puede atender los prospectos que llegarían, preferimos decírtelo en la primera llamada.',
+      'Si sí es el canal, revisamos tu cuenta actual y te mostramos dónde se está yendo el presupuesto.',
+    ]}
+    cta={{ texto: 'Solicitar diagnóstico de mi cuenta', href: CONTACTO }}
+    telefono={{ texto: '(81) 2092-9666', href: 'tel:+528120929666' }}
+    entradaCruzados="La pauta rinde más acompañada"
+    cruzados={cruzados}
+  />
+</BaseLayout>
+
+<style>
+  /* La intro de "Cómo trabajamos" es una entradilla, no una sección completa:
+     va pegada al primer bloque de argumento para que se lean como una unidad. */
+  .seccion--intro { padding: 70px 0 10px; }
+  .entradilla--grande {
+    font-size: 22px;
+    line-height: 1.5;
+    max-width: 62ch;
+    margin: 0;
+    color: var(--color-marca);
+    font-weight: 600;
+  }
+
+  @media (max-width: 767px) {
+    .seccion--intro { padding: 52px 0 8px; }
+    .entradilla--grande { font-size: 19px; }
+  }
+</style>

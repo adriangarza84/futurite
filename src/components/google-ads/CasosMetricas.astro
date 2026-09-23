@@ -1,0 +1,238 @@
+---
+interface Caso {
+  cliente?: string;
+  industria: string;
+  situacion: string;
+  cambio: string;
+  cpaAntes: string;
+  cpaDespues: string;
+  periodo: string;
+  inversion: string;
+}
+
+interface Props {
+  kicker: string;
+  titulo: string;
+  entrada?: string;
+  casos: Caso[];
+  /* Si es true, oculta el nombre del cliente y deja solo la industria. Existe
+     para no rehacer el componente cuando se decida si los casos salen con
+     nombre: es cambiar la prop y ya. */
+  anonimo?: boolean;
+  /* Aviso visible mientras las cifras sean de muestra. Es a propósito difícil
+     de pasar por alto: esta página entera argumenta rigor de medición, y
+     publicar números inventados sin marcar sería justo lo contrario. */
+  ejemplo?: boolean;
+  cierre?: string;
+}
+
+const { kicker, titulo, entrada, casos, anonimo = true, ejemplo = false, cierre } = Astro.props;
+---
+
+<section class="seccion seccion--alt casos" id="resultados">
+  <div class="contenedor">
+    <div class="casos__intro">
+      <span class="kicker">{kicker}</span>
+      <h2>{titulo}</h2>
+      <div class="linea"></div>
+      {entrada && <p class="entradilla">{entrada}</p>}
+    </div>
+
+    {ejemplo && (
+      <p class="casos__aviso">
+        <strong>Datos de ejemplo.</strong> Las cifras de esta sección son de muestra y no
+        corresponden a cuentas reales. Sustituir en <code>src/data/google-ads/casos.json</code> y
+        poner <code>"ejemplo": false</code> antes de publicar.
+      </p>
+    )}
+
+    <ul class="casos__grid">
+      {casos.map((c) => (
+        <li class="caso">
+          {/* El H3 es lo que identifica al caso. Las dos etiquetas de abajo
+              se repiten en las tres tarjetas: como encabezados ensuciarían el
+              esquema del documento, así que van en <span>. */}
+          <h3 class="caso__industria">{!anonimo && c.cliente ? c.cliente : c.industria}</h3>
+
+          <div class="caso__campo">
+            <span class="caso__etiqueta">Situación inicial</span>
+            <p>{c.situacion}</p>
+          </div>
+
+          <div class="caso__campo">
+            <span class="caso__etiqueta">Qué se cambió</span>
+            <p>{c.cambio}</p>
+          </div>
+
+          <div class="caso__metrica">
+            <div class="caso__cpa">
+              <span class="caso__cpa-etiqueta">CPA antes</span>
+              <span class="caso__cpa-antes">{c.cpaAntes}</span>
+            </div>
+            <span class="caso__flecha" aria-hidden="true">
+              <svg viewBox="0 0 32 16" focusable="false">
+                <path d="M2 8h26M22 2l6 6-6 6" />
+              </svg>
+            </span>
+            <div class="caso__cpa">
+              <span class="caso__cpa-etiqueta">CPA después</span>
+              <span class="caso__cpa-despues">{c.cpaDespues}</span>
+            </div>
+          </div>
+
+          <dl class="caso__pie">
+            <div><dt>Periodo</dt><dd>{c.periodo}</dd></div>
+            <div><dt>Inversión administrada</dt><dd>{c.inversion}</dd></div>
+          </dl>
+        </li>
+      ))}
+    </ul>
+
+    {cierre && <p class="casos__cierre">{cierre}</p>}
+  </div>
+</section>
+
+<style>
+  .casos__intro { margin-bottom: 34px; }
+
+  .casos__aviso {
+    background: #fff4d6;
+    border: 2px solid #e8c25a;
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin: 0 0 26px;
+    font-size: 16px;
+    color: #6b4e08;
+  }
+  .casos__aviso strong { color: #6b4e08; }
+  .casos__aviso code {
+    font-size: 14.5px;
+    background: rgba(0, 0, 0, .06);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  .casos__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+  }
+  .caso {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-fondo);
+    border: 2px solid var(--color-borde);
+    border-radius: var(--radio-card);
+    padding: 28px 26px;
+  }
+  /* Mismo tratamiento que .kicker, pero aquí es el dato que identifica al caso
+     y no una etiqueta de sección: por eso va con su propia clase. */
+  .caso__industria {
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--color-marca-medio);
+    margin-bottom: 18px;
+  }
+
+  .caso__campo { margin-bottom: 18px; }
+  .caso__etiqueta {
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--color-texto-suave);
+    margin-bottom: 6px;
+  }
+  .caso__campo p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--color-texto-suave);
+  }
+
+  .caso__metrica {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--color-acento-pastel);
+    border-radius: 16px;
+    padding: 18px 20px;
+    /* Empuja el bloque de métrica al fondo de la tarjeta: los tres casos lo
+       alinean aunque el texto de arriba mida distinto. */
+    margin-top: auto;
+  }
+  .caso__cpa { display: flex; flex-direction: column; gap: 2px; }
+  .caso__cpa-etiqueta {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    color: var(--color-texto-suave);
+  }
+  .caso__cpa-antes {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--color-texto-suave);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+  }
+  .caso__cpa-despues {
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--color-marca);
+  }
+  .caso__flecha svg {
+    display: block;
+    width: 32px;
+    height: 16px;
+    fill: none;
+    stroke: var(--color-acento);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .caso__pie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 24px;
+    margin: 16px 0 0;
+  }
+  .caso__pie dt {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    font-weight: 700;
+    color: var(--color-texto-suave);
+  }
+  .caso__pie dd {
+    margin: 0;
+    font-size: 16.5px;
+    font-weight: 800;
+    color: var(--color-marca);
+  }
+
+  .casos__cierre {
+    margin: 30px 0 0;
+    max-width: 78ch;
+    font-size: 17px;
+    color: var(--color-texto-suave);
+  }
+
+  @media (max-width: 991px) {
+    .casos__grid { grid-template-columns: 1fr; gap: 20px; }
+    .caso__metrica { justify-content: flex-start; gap: 20px; }
+  }
+  @media (max-width: 480px) {
+    .caso__cpa-despues { font-size: 26px; }
+    .caso__cpa-antes { font-size: 21px; }
+  }
+</style>

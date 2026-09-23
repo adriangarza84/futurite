@@ -1,0 +1,37 @@
+{
+  "_comentario": "DATOS DE EJEMPLO. Sustituir por los casos reales antes de publicar y poner \"ejemplo\": false. Mientras esté en true, la sección se dibuja con un aviso visible para que nadie la publique por error.",
+  "ejemplo": true,
+  "anonimo": true,
+  "casos": [
+    {
+      "cliente": "",
+      "industria": "Educación privada",
+      "situacion": "Search y Performance Max mezclaban marca y no-marca en la misma campaña, así que el reporte se inflaba con gente que ya buscaba el nombre de la escuela.",
+      "cambio": "Separamos marca de no-marca, conectamos el CRM para devolver a Google qué solicitud llegó a inscripción y pasamos la puja a valor de conversión.",
+      "cpaAntes": "$1,850",
+      "cpaDespues": "$760",
+      "periodo": "6 meses",
+      "inversion": "$2.4 MDP"
+    },
+    {
+      "cliente": "",
+      "industria": "Salud especializada",
+      "situacion": "La cuenta optimizaba hacia clics en WhatsApp. Google traía volumen de contactos, pero la clínica no llenaba agenda.",
+      "cambio": "Cambiamos la conversión a cita agendada y confirmada, activamos conversiones mejoradas y medición server-side, y depuramos términos de búsqueda sin intención de tratamiento.",
+      "cpaAntes": "$980",
+      "cpaDespues": "$410",
+      "periodo": "4 meses",
+      "inversion": "$1.1 MDP"
+    },
+    {
+      "cliente": "",
+      "industria": "Manufactura industrial B2B",
+      "situacion": "Ciclo de venta largo y sin medición offline: el algoritmo no distinguía una cotización real de una descarga de catálogo.",
+      "cambio": "Importamos las etapas del CRM como conversiones offline con su valor, reconstruimos la estructura por línea de producto y cuidamos el feed de Shopping.",
+      "cpaAntes": "$3,400",
+      "cpaDespues": "$1,520",
+      "periodo": "8 meses",
+      "inversion": "$3.8 MDP"
+    }
+  ]
+}

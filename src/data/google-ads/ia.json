@@ -1,0 +1,17 @@
+[
+  {
+    "numero": "01",
+    "titulo": "Le enseñamos a Google cuáles de tus leads sí cerraron",
+    "texto": "La mayoría de las cuentas optimizan hacia formularios llenados. El problema es que Google no sabe cuáles de esos formularios se volvieron clientes, así que aprende a traerte más de todo, incluyendo lo que nunca compra. Conectamos tu CRM y devolvemos a Google las conversiones offline: qué lead calificó, cuál cerró y por cuánto. A partir de ahí el algoritmo deja de perseguir prospectos y empieza a perseguir ventas. Es el cambio que más mueve el costo de adquisición y el que casi nadie implementa."
+  },
+  {
+    "numero": "02",
+    "titulo": "Medición que sobrevive a los bloqueadores y a la privacidad",
+    "texto": "Consent Mode v2 y medición server-side. El navegador dejó de ser un lugar confiable para medir: bloqueadores, cookies de terceros y restricciones de privacidad hacen que una parte de tus conversiones simplemente no se registre. Si tú no las ves, el algoritmo tampoco, y optimiza con información incompleta."
+  },
+  {
+    "numero": "03",
+    "titulo": "Análisis a un volumen que no se hace a mano",
+    "texto": "Usamos IA para revisar términos de búsqueda, generar y rotar variantes de anuncio y detectar patrones en cuentas con miles de combinaciones activas. No para escribir tus anuncios sin que nadie los lea: para revisar lo que ningún equipo alcanza a revisar manualmente y decidir con eso."
+  }
+]
