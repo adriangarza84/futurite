@@ -5,7 +5,9 @@
 // finales, se pasa la prop `imagen` a BloqueArgumento y estas dejan de usarse.
 
 interface Props {
-  tipo: 'dato' | 'creativo' | 'decisiones';
+  /* Los tres primeros son de /agencia-de-redes-sociales; los tres últimos, de
+     /google-ads. Cada página usa los suyos. */
+  tipo: 'dato' | 'creativo' | 'decisiones' | 'medicion' | 'senales' | 'reporte';
 }
 const { tipo } = Astro.props;
 ---
@@ -57,6 +59,75 @@ const { tipo } = Astro.props;
       <rect x="216" y="66" width="30" height="110" rx="6" class="fill-ac" />
       <path d="M72 108l48-24 48 12 48-44" class="tz gruesa" />
       <circle cx="216" cy="52" r="9" class="fill-ac" />
+    </svg>
+  )}
+
+  {tipo === 'medicion' && (
+    <svg viewBox="0 0 320 240" role="presentation" focusable="false">
+      {/* Una búsqueda que entra, una conversión que se verifica: el orden que
+          defiende el bloque. */}
+      <rect x="16" y="24" width="186" height="46" rx="23" class="tz" />
+      <circle cx="46" cy="47" r="11" class="tz" />
+      <line x1="54" y1="55" x2="63" y2="64" class="tz" />
+      <line x1="82" y1="40" x2="178" y2="40" class="tz" />
+      <line x1="82" y1="56" x2="146" y2="56" class="tz" />
+
+      <path d="M109 82v24" class="tz gruesa" />
+      <path d="M100 98l9 11 9-11" class="tz gruesa" />
+
+      <rect x="16" y="120" width="186" height="98" rx="14" class="tz" />
+      <circle cx="42" cy="150" r="6" class="fill-ac" />
+      <circle cx="42" cy="176" r="6" class="fill-ac op" />
+      <circle cx="42" cy="202" r="6" class="fill-ac op" />
+      <line x1="62" y1="150" x2="180" y2="150" class="tz" />
+      <line x1="62" y1="176" x2="180" y2="176" class="tz" />
+      <line x1="62" y1="202" x2="146" y2="202" class="tz" />
+
+      <circle cx="258" cy="120" r="46" class="tz" />
+      <path d="M235 120l15 16 28-32" class="tz gruesa" />
+    </svg>
+  )}
+
+  {tipo === 'senales' && (
+    <svg viewBox="0 0 320 240" role="presentation" focusable="false">
+      {/* Cuatro señales alimentando al sistema, y una sola salida. */}
+      <rect x="14" y="30" width="72" height="34" rx="9" class="tz" />
+      <rect x="14" y="103" width="72" height="34" rx="9" class="tz" />
+      <rect x="14" y="176" width="72" height="34" rx="9" class="tz" />
+
+      <path d="M90 47h26l14 38" class="tz" />
+      <path d="M90 120h34" class="tz" />
+      <path d="M90 193h26l14-38" class="tz" />
+      <path d="M118 112l8 10 8-10" class="tz" transform="rotate(-90 126 117)" />
+
+      <rect x="132" y="84" width="82" height="72" rx="16" class="tz gruesa" />
+      <circle cx="173" cy="120" r="17" class="fill-ac" />
+      <circle cx="173" cy="120" r="29" class="tz op" />
+
+      <path d="M218 120h30" class="tz gruesa" />
+      <path d="M240 111l10 9-10 9" class="tz gruesa" />
+      <rect x="254" y="96" width="52" height="48" rx="10" class="fill-ac" />
+      <path d="M266 120l8 9 16-18" class="tz blanca gruesa" />
+    </svg>
+  )}
+
+  {tipo === 'reporte' && (
+    <svg viewBox="0 0 320 240" role="presentation" focusable="false">
+      {/* El reporte del mes: lo que se invirtió, lo que generó y hacia dónde va
+          el costo por adquisición. */}
+      <rect x="20" y="18" width="232" height="204" rx="16" class="tz" />
+      <line x1="46" y1="52" x2="186" y2="52" class="tz" />
+      <line x1="46" y1="74" x2="148" y2="74" class="tz" />
+      <line x1="46" y1="190" x2="226" y2="190" class="tz" />
+
+      <rect x="56" y="122" width="28" height="68" rx="6" class="fill-ac op" />
+      <rect x="100" y="142" width="28" height="48" rx="6" class="fill-ac op" />
+      <rect x="144" y="158" width="28" height="32" rx="6" class="fill-ac" />
+      <path d="M70 112l44 20 44 16" class="tz gruesa" />
+      <circle cx="158" cy="148" r="8" class="fill-ac" />
+
+      <path d="M286 104v52" class="tz gruesa" />
+      <path d="M275 145l11 14 11-14" class="tz gruesa" />
     </svg>
   )}
 </div>

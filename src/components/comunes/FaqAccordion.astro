@@ -1,20 +1,22 @@
 ---
-import faqs from '../../data/redes/faqs.json';
-
 interface Props {
   titulo: string;
+  kicker?: string;
+  /* El mismo arreglo que alimenta el JSON-LD de FAQPage. Se pasa desde la
+     página para que las dos salidas vengan del mismo archivo de datos. */
+  faqs: { pregunta: string; respuesta: string }[];
 }
-const { titulo } = Astro.props;
+const { titulo, kicker = 'Dudas comunes', faqs } = Astro.props;
 ---
 
 {/* <details>/<summary> nativos: cero JavaScript, navegable por teclado y con
     todas las respuestas presentes en el HTML inicial aunque estén colapsadas.
     El JSON-LD de FAQPage se genera desde este mismo archivo de datos
-    (ver getFaqJsonLd en src/lib/jsonld.js), así que no se pueden desincronizar. */}
+    (ver faqPageJsonLd en src/lib/jsonld.js), así que no se pueden desincronizar. */}
 <section class="seccion seccion--alt faq" id="preguntas-frecuentes">
   <div class="contenedor">
     <div class="faq__intro">
-      <span class="kicker">Dudas comunes</span>
+      <span class="kicker">{kicker}</span>
       <h2>{titulo}</h2>
       <div class="linea"></div>
     </div>

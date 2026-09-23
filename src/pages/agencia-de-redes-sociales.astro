@@ -1,16 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/redes/Hero.astro';
-import BloqueArgumento from '../components/redes/BloqueArgumento.astro';
+import Hero from '../components/comunes/Hero.astro';
+import BloqueArgumento from '../components/comunes/BloqueArgumento.astro';
 import IABloque from '../components/redes/IABloque.astro';
 import Plataformas from '../components/redes/Plataformas.astro';
 import Proceso from '../components/redes/Proceso.astro';
-import Clientes from '../components/redes/Clientes.astro';
-import FaqAccordion from '../components/redes/FaqAccordion.astro';
-import CierreCta from '../components/redes/CierreCta.astro';
-import { faqPageJsonLd, serviceJsonLd, URL_PAGINA } from '../lib/jsonld.js';
+import Clientes from '../components/comunes/Clientes.astro';
+import Credenciales from '../components/comunes/Credenciales.astro';
+import FaqAccordion from '../components/comunes/FaqAccordion.astro';
+import CierreCta from '../components/comunes/CierreCta.astro';
+import { faqPageJsonLd, serviceJsonLd, SITIO } from '../lib/jsonld.js';
 import intro from '../data/redes/intro.json';
+import faqs from '../data/redes/faqs.json';
 
+const URL_PAGINA = `${SITIO}/agencia-de-redes-sociales`;
 const CONTACTO = 'https://futurite.com/contacto';
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -119,7 +122,22 @@ const pasos = [
   },
 ];
 
-const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
+const jsonLd = [
+  faqPageJsonLd(faqs),
+  serviceJsonLd({
+    nombre: 'Agencia de redes sociales',
+    tipo: 'Marketing en redes sociales',
+    url: URL_PAGINA,
+  }),
+];
+
+// Los cuatro enlaces cruzados del brief: los otros servicios, nunca el propio.
+const cruzados = [
+  { texto: 'posicionamiento SEO orgánico', href: 'https://futurite.com/agencia-seo', id: 'seo' },
+  { texto: 'campañas en buscadores con Google Ads', href: 'https://futurite.com/google-ads', id: 'google-ads' },
+  { texto: 'tiendas en línea', href: 'https://futurite.com/comercio-electronico', id: 'comercio-electronico' },
+  { texto: 'campañas para consultorios y clínicas', href: 'https://futurite.com/marketing-medico', id: 'marketing-medico' },
+];
 ---
 
 <BaseLayout
@@ -133,6 +151,8 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
     antetitulo="Redes sociales que se miden en clientes, no en seguidores"
     titulo="Agencia de redes sociales en México"
     bajada="Operamos Meta, TikTok, LinkedIn y YouTube para marcas de todo el país. Producimos el contenido, manejamos la pauta y reportamos lo que cuesta cada prospecto y cada venta."
+    video="hero-redes.mp4"
+    poster="hero-redes.jpg"
     botones={[
       { texto: 'Agenda una reunión', href: CONTACTO, variante: 'primario', gtm: 'hero-primario' },
       { texto: 'Ver cómo trabajamos', href: '#como-trabajamos', variante: 'fantasma', gtm: 'hero-secundario' },
@@ -217,48 +237,12 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
   <Clientes titulo="Clientes que nos respaldan" />
 
   <!-- 10 · Credenciales -->
-  <section class="seccion credenciales">
-    <div class="contenedor credenciales__inner">
-      <div class="credenciales__badges">
-        {/* Los logotipos oficiales de los dos programas. El de Google es un
-            sello cuadrado y el de Meta un lockup horizontal: cada uno tiene su
-            propia caja para que ninguno se vea deformado ni desproporcionado.
-            Los dos van al ras del mismo borde izquierdo. Para eso hubo que
-            recortar el viewBox del SVG de Meta, que traía ~400 unidades de aire
-            por lado y metía el logo 5% hacia adentro de su caja. */}
-        <img
-          class="badge badge--google"
-          src={`${BASE}/assets/img/credenciales/google-partner-premier-2026.webp`}
-          alt="Google Partner Premier 2026"
-          width="440"
-          height="420"
-          loading="lazy"
-          decoding="async"
-        />
-        <img
-          class="badge badge--meta"
-          src={`${BASE}/assets/img/credenciales/meta-business-partner.svg`}
-          alt="Meta Business Partners"
-          width="6550"
-          height="404"
-          loading="lazy"
-          decoding="async"
-        />
-      </div>
-      <div class="credenciales__texto">
-        <p>
-          Futurité es <strong>Meta Business Partner</strong> y
-          <strong>Google Partner Premier</strong>. Ambos programas exigen certificaciones vigentes
-          del equipo y desempeño sostenido de las cuentas que gestiona la agencia.
-        </p>
-        <p class="credenciales__cifras">
-          Más de <strong>17 años</strong> operando campañas en México, en más de
-          <strong>40 giros</strong> distintos, para marcas de Monterrey, Ciudad de México,
-          Guadalajara, Querétaro, Toluca y Cancún.
-        </p>
-      </div>
-    </div>
-  </section>
+  <Credenciales
+    parrafos={[
+      'Futurité es <strong>Meta Business Partner</strong> y <strong>Google Partner Premier</strong>. Ambos programas exigen certificaciones vigentes del equipo y desempeño sostenido de las cuentas que gestiona la agencia.',
+      'Más de <strong>17 años</strong> operando campañas en México, en más de <strong>40 giros</strong> distintos, para marcas de Monterrey, Ciudad de México, Guadalajara, Querétaro, Toluca y Cancún.',
+    ]}
+  />
 
   <!--
     11 · Casos — fuera de esta versión (sección 9 del brief).
@@ -268,12 +252,14 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
   -->
 
   <!-- 12 · Preguntas frecuentes -->
-  <FaqAccordion titulo="Preguntas frecuentes" />
+  <FaqAccordion titulo="Preguntas frecuentes" faqs={faqs} />
 
   <!-- 13 · Cierre y enlaces cruzados -->
   <CierreCta
     titulo="Dinos qué vendes y a quién. El resto lo resolvemos nosotros."
     cta={{ texto: 'Contáctanos', href: CONTACTO }}
+    entradaCruzados="Las redes rinden más acompañadas"
+    cruzados={cruzados}
   />
 </BaseLayout>
 
@@ -328,39 +314,7 @@ const jsonLd = [faqPageJsonLd(), serviceJsonLd()];
     margin: 0;
   }
 
-  .credenciales { background: var(--color-fondo-alt); }
-  .credenciales__inner {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 44px;
-    align-items: center;
-  }
-  .credenciales__badges {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
-  }
-  .badge { display: block; width: auto; height: auto; margin-left: 0; }
-  .badge--google { height: 150px; width: auto; max-width: 100%; }
-  .badge--meta { width: 280px; height: auto; max-width: 100%; }
-  .credenciales__texto p { font-size: 18px; color: var(--color-texto-suave); }
-  .credenciales__texto strong { color: var(--color-marca); }
-  .credenciales__cifras { margin-bottom: 0; }
-
   @media (max-width: 991px) {
     .incluye__lista { grid-template-columns: 1fr; }
-    .credenciales__inner { grid-template-columns: 1fr; gap: 28px; }
-    /* En una sola columna los dos sellos caben lado a lado. */
-    .credenciales__badges { flex-direction: row; align-items: center; gap: 30px; }
-    .badge--google { height: 116px; }
-    .badge--meta { width: 250px; }
-  }
-  @media (max-width: 575px) {
-    /* Apilados otra vez: el lockup de Meta es muy alargado y al lado del sello
-       cuadrado se queda sin ancho para leerse. */
-    .credenciales__badges { flex-direction: column; align-items: flex-start; gap: 22px; }
-    .badge--google { height: 120px; }
-    .badge--meta { width: 240px; }
   }
 </style>

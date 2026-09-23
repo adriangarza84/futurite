@@ -1,0 +1,115 @@
+---
+interface Props {
+  titulo: string;
+  cta: { texto: string; href: string };
+  /* Párrafos entre el titular y el botón. La página de redes no los usa. */
+  parrafos?: string[];
+  telefono?: { texto: string; href: string };
+  /* Los cuatro enlaces cruzados obligatorios del brief. Van dentro del texto,
+     no como lista de botones, y llevan su propio evento de medición. Cada
+     página excluye el suyo y entra el que le falta. */
+  entradaCruzados: string;
+  cruzados: { texto: string; href: string; id: string }[];
+}
+const { titulo, cta, parrafos = [], telefono, entradaCruzados, cruzados } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const fondo = `${base}/assets/img/comunes/fondo-cierre.webp`;
+---
+
+<section class="seccion cierre" style={`--fondo: url('${fondo}')`}>
+  <div class="contenedor cierre__inner">
+    <h2 class="cierre__titulo">{titulo}</h2>
+    {parrafos.length > 0 && (
+      <div class="cierre__texto">
+        {parrafos.map((p) => <p>{p}</p>)}
+      </div>
+    )}
+    <a
+      class="btn btn--primario cierre__btn"
+      href={cta.href}
+      data-gtm-evento="cta_click"
+      data-gtm-posicion="cierre"
+    >
+      {cta.texto}
+    </a>
+
+    {telefono && (
+      <p class="cierre__telefono">
+        o llámanos al <a href={telefono.href} data-gtm-evento="tel_click">{telefono.texto}</a>
+      </p>
+    )}
+
+    {/* Todo en una línea a propósito: si el <a> y su signo de puntuación se
+        parten en varias líneas, el compilador deja un espacio antes de la coma. */}
+    <p class="cierre__cruzados">
+      {entradaCruzados}: {cruzados.map((c, i) => (<><a href={c.href} data-gtm-evento="link_servicio" data-gtm-servicio={c.id}>{c.texto}</a>{i < cruzados.length - 2 ? ', ' : i === cruzados.length - 2 ? ' y ' : '.'}</>))}
+    </p>
+  </div>
+</section>
+
+<style>
+  /* La imagen va debajo de una capa de marca bastante opaca: el fondo tiene
+     zonas muy claras (iconos y una forma blanca al centro) y el texto es
+     blanco. Con la capa, el contraste se mantiene arriba de 4.5:1 en toda la
+     banda y la imagen se lee como textura, no como foto. */
+  .cierre {
+    background-color: #29698a;
+    background-image:
+      linear-gradient(100deg, rgba(0, 40, 66, .93) 0%, rgba(0, 46, 76, .86) 52%, rgba(0, 52, 84, .78) 100%),
+      var(--fondo);
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+    color: #fff;
+    text-align: center;
+  }
+  .cierre__inner { max-width: 820px; }
+  .cierre__titulo {
+    color: #fff;
+    font-size: 32px;
+    margin-bottom: 28px;
+  }
+  /* Los párrafos van en su propia caja para que el margen de abajo no dependa
+     de cuántos sean ni de que el <p> de los enlaces cruzados sea el último. */
+  .cierre__texto { margin-bottom: 30px; }
+  .cierre__texto p {
+    color: rgba(255, 255, 255, .9);
+    font-size: 18px;
+    max-width: 70ch;
+    margin: 0 auto 16px;
+  }
+  .cierre__texto p:last-child { margin-bottom: 0; }
+  .cierre__btn { margin-bottom: 30px; }
+  /* El teléfono es la salida para quien no quiere llenar un formulario, pero
+     no compite con el botón: va en texto, debajo. */
+  .cierre__telefono {
+    margin: -10px 0 26px;
+    color: rgba(255, 255, 255, .88);
+    font-size: 17px;
+  }
+  .cierre__telefono a {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cierre__telefono a:hover { color: var(--color-acento); }
+  .cierre__cruzados {
+    margin: 0;
+    color: rgba(255, 255, 255, .88);
+    font-size: 17px;
+  }
+  .cierre__cruzados a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cierre__cruzados a:hover { color: var(--color-acento); }
+
+  @media (max-width: 767px) {
+    .cierre__titulo { font-size: 24px; }
+    .cierre__texto p { font-size: 16.5px; }
+    .cierre__cruzados { font-size: 16px; }
+  }
+</style>

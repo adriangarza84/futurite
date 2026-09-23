@@ -110,6 +110,11 @@ button:focus-visible {
   padding: 0 20px;
 }
 
+/* El header es sticky y mide 72 px: sin esto, al saltar a un ancla el titular
+   queda escondido debajo del menú. Va en todo lo que tenga id porque cualquier
+   sección puede ser destino de un enlace interno. */
+[id] { scroll-margin-top: 92px; }
+
 .seccion { padding: 76px 0; }
 .seccion--alt { background: var(--color-fondo-alt); }
 .seccion--pastel { background: var(--color-acento-pastel); }

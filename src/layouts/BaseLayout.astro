@@ -1,7 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import '../styles/redes.css';
+import '../styles/sitio.css';
 
 interface Props {
   title: string;
@@ -47,6 +47,17 @@ const GTM_ID = 'GTM-XXXXXXX';
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preconnect" href="https://futurite.com" crossorigin />
+
+    {/* El H1 va en 900 y es parte del LCP: sin precarga, el peso Black se pide
+        hasta que el navegador resuelve el CSS. En local da 404 y la página cae
+        al sans del sistema, igual que los @font-face. */}
+    <link
+      rel="preload"
+      href="/assets/fonts/ProximaNova-Black.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     {jsonLd.map((bloque) => (
       <script type="application/ld+json" set:html={JSON.stringify(bloque)} />

@@ -4,16 +4,20 @@ interface Props {
   titulo: string;
   bajada: string;
   botones: { texto: string; href: string; variante: 'primario' | 'fantasma'; gtm?: string }[];
+  /* Nombre del archivo, sin ruta: cada página de servicio trae su propio clip.
+     El póster es el primer cuadro de ese mismo video, así que van en pareja. */
+  video: string;
+  poster: string;
 }
 
-const { antetitulo, titulo, bajada, botones } = Astro.props;
+const { antetitulo, titulo, bajada, botones, video: archivoVideo, poster: archivoPoster } = Astro.props;
 
 // Mismos archivos que hoy sirve el sitio, en las mismas rutas. El póster es el
 // primer cuadro del propio video: no hay salto cuando el video arranca y solo
 // se descarga una imagen, no dos.
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const poster = `${base}/assets/img/heroes/hero-redes.jpg`;
-const video = `${base}/assets/video/hero-redes.mp4`;
+const poster = `${base}/assets/img/heroes/${archivoPoster}`;
+const video = `${base}/assets/video/${archivoVideo}`;
 ---
 
 <section class="hero hv-hero" style={`--poster: url('${poster}')`}>

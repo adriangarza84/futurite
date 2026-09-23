@@ -1,10 +1,11 @@
 ---
-import clientes from '../../data/redes/clientes.json';
+import clientes from '../../data/comunes/clientes.json';
 
 interface Props {
   titulo: string;
+  kicker?: string;
 }
-const { titulo } = Astro.props;
+const { titulo, kicker = 'Prueba social' } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
@@ -16,8 +17,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <section class="seccion clientes">
   <div class="contenedor clientes__grid">
     <div class="clientes__intro">
-      <span class="kicker">Prueba social</span>
-      <h2>Clientes que nos respaldan</h2>
+      <span class="kicker">{kicker}</span>
+      <h2>{titulo}</h2>
       <div class="linea"></div>
     </div>
 

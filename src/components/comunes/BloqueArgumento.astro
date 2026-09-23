@@ -4,9 +4,12 @@ import Figura from './Figura.astro';
 interface Props {
   kicker: string;
   titulo: string;
+  /* Párrafo entre el titular y los bullets. Los bloques de /google-ads lo
+     usan; los de /agencia-de-redes-sociales van directo a la lista. */
+  entrada?: string;
   bullets: string[];
   cta: { texto: string; href: string; posicion: string };
-  figura: 'dato' | 'creativo' | 'decisiones';
+  figura: 'dato' | 'creativo' | 'decisiones' | 'medicion' | 'senales' | 'reporte';
   /* Cuando existan las piezas definitivas: { src, alt, width, height } en WebP.
      Mientras tanto se usa la ilustración de línea de `figura`. */
   imagen?: { src: string; alt: string; width: number; height: number };
@@ -17,6 +20,7 @@ interface Props {
 const {
   kicker,
   titulo,
+  entrada,
   bullets,
   cta,
   figura,
@@ -32,6 +36,7 @@ const {
       <span class="kicker">{kicker}</span>
       <h2>{titulo}</h2>
       <div class="linea"></div>
+      {entrada && <p class="bloque__entrada">{entrada}</p>}
       <ul class="lista-marca">
         {bullets.map((b) => <li>{b}</li>)}
       </ul>
@@ -63,6 +68,14 @@ const {
 </section>
 
 <style>
+  .bloque__entrada {
+    font-size: 17.5px;
+    line-height: 1.6;
+    color: var(--color-texto-suave);
+    max-width: 60ch;
+    margin-bottom: 20px;
+  }
+
   .bloque__grid {
     display: grid;
     grid-template-columns: 1.05fr .95fr;
