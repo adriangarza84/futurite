@@ -27,24 +27,31 @@ const { datos } = Astro.props;
     border-bottom: 2px solid var(--color-borde);
     padding: 40px 0;
   }
+  /* Ojo con el margen: este <ul> es a la vez el .contenedor de la página, así
+     que el margen horizontal tiene que seguir siendo auto o la franja entera
+     se va contra el borde izquierdo en vez de centrarse. */
   .franja__lista {
     list-style: none;
-    margin: 0;
+    margin: 0 auto;
     padding-top: 0;
     padding-bottom: 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 28px;
   }
-  /* Los cuatro datos van centrados y sin separador: las etiquetas miden muy
-     distinto entre sí y, alineadas a la izquierda contra una línea, el cuarto
-     dato dejaba un hueco grande a la derecha de la franja. */
+  /* Los cuatro datos van centrados. El filete separa, así que va entre
+     columnas y no antes de la primera. El padding es igual en los cuatro para
+     que los centros queden a la misma distancia entre sí. */
   .franja__item {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    padding: 0 14px;
     text-align: center;
+  }
+  .franja__item + .franja__item {
+    border-left: 3px solid var(--color-acento);
   }
   .franja__valor {
     font-size: 30px;
@@ -66,6 +73,10 @@ const { datos } = Astro.props;
        renglones y el dato deja de leerse de un golpe. */
     .franja__lista { grid-template-columns: repeat(2, 1fr); gap: 26px 24px; }
     .franja__valor { font-size: 26px; }
+    /* En dos columnas el filete solo separa las parejas: en el tercer dato
+       sería una línea al principio de un renglón. */
+    .franja__item + .franja__item { border-left: 0; }
+    .franja__item:nth-child(even) { border-left: 3px solid var(--color-acento); }
   }
   @media (max-width: 480px) {
     .franja__valor { font-size: 22px; }
