@@ -325,10 +325,14 @@ Dos cambios más que alcanzan a las dos páginas, los dos a favor:
 - **Los números 01–03 de las tarjetas de IA van a opacidad .7, no .55.** A .55
   el cian sobre esa tarjeta da 2.74:1 y no alcanza ni el 3:1 del texto grande.
   A .7 da 3.49:1 en el extremo más claro del degradado.
-- **Las ilustraciones de los tres bloques son de línea**, no fotos:
-  `Figura.astro` ganó tres variantes (`medicion`, `senales`, `reporte`). Cuando
-  lleguen las piezas finales se pasa la prop `imagen` al bloque y estas dejan
-  de usarse, sin tocar CSS.
+- **El primer bloque ya usa foto**
+  (`public/assets/img/google-ads/medicion-verificada.webp`): la misma cuenta
+  antes y después de arreglar la medición, que es justo lo que argumenta el
+  bloque. Llegó a 1536 px y se redujo a 1040 —lo que pide la columna en
+  pantalla retina—, de 118 a 46 KB.
+- **Los otros dos bloques van con ilustración de línea**: `Figura.astro` ganó
+  tres variantes (`medicion`, `senales`, `reporte`). Cuando lleguen las piezas
+  finales se pasa la prop `imagen` al bloque y dejan de usarse, sin tocar CSS.
 
 ### Hero
 
@@ -417,5 +421,5 @@ Mismos eventos que en redes, con las posiciones de esta página:
 
 5. **Los tres casos reales** del portafolio, con CPA antes y después, periodo e
    inversión. Mientras tanto la sección va con el aviso de datos de ejemplo.
-6. **Las fotos de los tres bloques de "Cómo trabajamos"**, si se prefieren a
-   las ilustraciones de línea.
+6. **Las fotos del segundo y tercer bloque de "Cómo trabajamos"**, si se
+   prefieren a las ilustraciones de línea. El primero ya la tiene.

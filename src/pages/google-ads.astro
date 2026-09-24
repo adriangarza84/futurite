@@ -17,6 +17,7 @@ import portafolio from '../data/google-ads/casos.json';
 
 const URL_PAGINA = `${SITIO}/google-ads`;
 const CONTACTO = 'https://futurite.com/contacto';
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // --- Copy aprobado (documento del 2026-09-22). No editar sin avisar a marketing. ---
 
@@ -38,6 +39,14 @@ const bloques = [
     ],
     cta: { texto: CTA_BLOQUE, href: CONTACTO, posicion: 'bloque-medicion' },
     figura: 'medicion',
+    // Es exactamente el argumento del bloque: la misma cuenta antes y después
+    // de arreglar la medición, con las conversiones que sí valen marcadas.
+    imagen: {
+      src: `${BASE}/assets/img/google-ads/medicion-verificada.webp`,
+      alt: 'Dos pantallas con la misma cuenta de Google Ads: a la izquierda mide clics y conversiones sin valor; a la derecha, conversiones con valor y costo por conversión a la baja',
+      width: 1040,
+      height: 693,
+    },
     ladoImagen: 'derecha',
     fondo: 'blanco',
   },
@@ -136,6 +145,7 @@ const jsonLd = [
       bullets={b.bullets}
       cta={b.cta}
       figura={b.figura}
+      imagen={b.imagen}
       ladoImagen={b.ladoImagen}
       fondo={b.fondo}
     />
