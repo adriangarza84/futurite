@@ -8,12 +8,13 @@ import FaqAccordion from '../components/comunes/FaqAccordion.astro';
 import CierreCta from '../components/comunes/CierreCta.astro';
 import FranjaDatos from '../components/google-ads/FranjaDatos.astro';
 import IATarjetas from '../components/google-ads/IATarjetas.astro';
-import CasosMetricas from '../components/google-ads/CasosMetricas.astro';
 import { faqPageJsonLd, serviceJsonLd, breadcrumbJsonLd, SITIO } from '../lib/jsonld.js';
 import faqs from '../data/google-ads/faqs.json';
 import stats from '../data/google-ads/stats.json';
 import ia from '../data/google-ads/ia.json';
-import portafolio from '../data/google-ads/casos.json';
+// El portafolio está fuera de esta versión; su import vuelve con el bloque.
+// import CasosMetricas from '../components/google-ads/CasosMetricas.astro';
+// import portafolio from '../data/google-ads/casos.json';
 
 const URL_PAGINA = `${SITIO}/google-ads`;
 const CONTACTO = 'https://futurite.com/contacto';
@@ -159,17 +160,24 @@ const jsonLd = [
     puntos={ia}
   />
 
-  <!-- 5 · Portafolio con métricas -->
-  <CasosMetricas
-    kicker="Resultados"
-    titulo="Resultados que puedes verificar"
-    casos={portafolio.casos}
-    anonimo={portafolio.anonimo}
-    ejemplo={portafolio.ejemplo}
-    cierre="Administramos más de 60 millones de pesos de inversión publicitaria al año, repartidos en más de 100 cuentas activas. Cada caso se mide contra el costo por adquisición con el que llegó, no contra un promedio de la industria."
-  />
+  {/*
+    5 · Portafolio con métricas — fuera de esta versión.
+    El componente y los datos siguen en el repo (CasosMetricas.astro y
+    data/google-ads/casos.json). Cuando haya casos reales se sustituyen las
+    cifras, se pone "ejemplo": false y se descomenta esto: el espacio ya está
+    previsto aquí, entre el bloque de IA y la barra de clientes.
 
-  <!-- 5 bis · Clientes y credenciales -->
+    <CasosMetricas
+      kicker="Resultados"
+      titulo="Resultados que puedes verificar"
+      casos={portafolio.casos}
+      anonimo={portafolio.anonimo}
+      ejemplo={portafolio.ejemplo}
+      cierre="Administramos más de 60 millones de pesos de inversión publicitaria al año, repartidos en más de 100 cuentas activas. Cada caso se mide contra el costo por adquisición con el que llegó, no contra un promedio de la industria."
+    />
+  */}
+
+  <!-- 6 · Clientes y credenciales -->
   <Clientes titulo="Clientes que nos respaldan" />
 
   <Credenciales

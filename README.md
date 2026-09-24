@@ -276,10 +276,15 @@ acordeón es nativo, el click es el único gesto que hay que escuchar.
 
 ## Página de Google Ads
 
-Ocho secciones, en el orden del brief del 2026-09-22: hero, franja de
-credibilidad, tres bloques de "Cómo trabajamos", tarjetas de IA, portafolio con
-métricas, clientes y credenciales, preguntas frecuentes, y cierre con los
-enlaces cruzados.
+Siete secciones: hero, franja de credibilidad, tres bloques de "Cómo
+trabajamos", tarjetas de IA, clientes y credenciales, preguntas frecuentes, y
+cierre con los enlaces cruzados.
+
+El portafolio con métricas del brief **no se publica en esta versión**, porque
+todavía no hay casos reales. El componente y los datos siguen en el repo y el
+hueco está comentado en la página, entre el bloque de IA y la barra de
+clientes: cuando lleguen las cifras se sustituyen, se pone `"ejemplo": false`
+y se descomentan las cuatro líneas.
 
 ### Lo que hubo que tocar de la página de redes
 
@@ -342,15 +347,13 @@ Se conserva el clip que ya usa la página en producción,
 el de redes: no se descarga abajo de 992 px ni con `prefers-reduced-motion`,
 y si no carga queda el póster.
 
-### Portafolio: cifras de ejemplo
+### Portafolio: fuera de esta versión
 
-Los tres casos de `src/data/google-ads/casos.json` son **de muestra** y la
-sección se dibuja con un aviso amarillo que lo dice. Es a propósito difícil de
-pasar por alto: esta página argumenta rigor de medición, y publicar números
-inventados sin marcar sería justo lo contrario.
-
-Para publicar: sustituir los tres casos y poner `"ejemplo": false`. El aviso
-desaparece solo. Si algún día los casos salen con nombre de cliente, se llena
+`CasosMetricas.astro` está construido y probado, con los tres casos de
+`src/data/google-ads/casos.json` como datos de muestra, pero **no se renderiza**:
+la llamada está comentada en la página. Mientras `"ejemplo"` siga en `true`, la
+sección se dibuja con un aviso amarillo que avisa de que las cifras no son
+reales, para que no se publique por accidente. Si algún día los casos salen con nombre de cliente, se llena
 `cliente` y se pone `"anonimo": false`; el componente ya lo contempla.
 
 La cifra de "más de 40 millones en conversiones" que traía la página vieja se
@@ -420,6 +423,6 @@ Mismos eventos que en redes, con las posiciones de esta página:
 **De Google Ads**
 
 5. **Los tres casos reales** del portafolio, con CPA antes y después, periodo e
-   inversión. Mientras tanto la sección va con el aviso de datos de ejemplo.
+   inversión. Hasta entonces la sección no se publica.
 6. **Las fotos del segundo y tercer bloque de "Cómo trabajamos"**, si se
    prefieren a las ilustraciones de línea. El primero ya la tiene.
